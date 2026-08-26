@@ -1,3 +1,33 @@
+# UPDATE 1.3.0 | 26/08/2026
+
+## Script Studio — one settings panel for every dirk script
+
+Every script used to carry its own config menu. Same panel written over and
+over, each one slightly different, each one needing its own command to find.
+They are now one.
+
+- **One panel, every script.** `/dirk_config` opens the lot. Each script keeps its own page, and your old per-script commands still work — they open the same panel on that script's page.
+- **Search across everything.** Type "webhook" or "permit" and get matches from every installed script at once, jumping straight to the setting. Finding a setting no longer means remembering which script owns it.
+- **One save bar.** Changes are collected and saved together, with a count of what you have touched and a way to put any of it back before saving. Nothing is written until you say so.
+- **Maps instead of coordinates.** Anywhere a setting is a place, you get a map and a marker rather than three numbers to paste.
+- **Pickers instead of typing.** Items, icons and peds are chosen from a list with their artwork, and a name you have not installed yet is flagged rather than silently accepted — so you can set gear up before the restart that adds it.
+
+## Logs
+
+- **Every dirk script now logs to one place**, readable in the panel and searchable by script, event, player or text. Nothing to set up: it is on by default and prunes itself.
+- **Discord webhooks are now set up once, here, instead of per script.** Point a webhook at everything, at one script, or at particular events, and add as many as you like. Batched and rate-limited properly — a busy night sends a handful of messages rather than hundreds.
+- Existing per-script webhook settings are read and carried over, so nothing needs re-entering.
+
+## Bridges
+
+- **A page showing what dirk_lib actually detected** — your framework, inventory, target, dispatch and the rest — and letting you override any of it when the guess is wrong. Previously this was invisible, and a wrong guess meant a support ticket.
+
+## What's new
+
+- **Releases and announcements now reach you in-game.** Changelogs are read in the panel, and are fetched fresh rather than being whatever shipped in the build, so you can see what an update contains before you take it.
+
+---
+
 # UPDATE 1.2.80 | 17/08/2026
 
 ## Fixes

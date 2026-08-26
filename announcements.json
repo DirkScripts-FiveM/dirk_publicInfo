@@ -2,7 +2,7 @@
   "$comment": "Read by dirk_lib's Script Studio panel. Public on purpose: this is fetched unauthenticated from raw.githubusercontent by every server that runs a dirk script. Nothing in here is private, and nothing in here is trusted as markup - the panel renders plain text into a card it designed.",
   "schema": 1,
   "versions": {
-    "dirk_lib": "1.2.80",
+    "dirk_lib": "1.3.0",
     "dirk_fishing": "2.0.65",
     "dirk_multichar": "1.5.6",
     "dirk_projectCars": "1.1.7"
