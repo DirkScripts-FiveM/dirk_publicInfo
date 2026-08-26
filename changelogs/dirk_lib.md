@@ -1,3 +1,24 @@
+# UPDATE 1.2.80 | 17/08/2026
+
+## Fixes
+- **Settings panel no longer opens empty for scripts with no server-only fields.** Every field read as blank and Save stayed greyed out, so the script's settings could not be edited at all. Scripts that *do* hide values from clients (fishing) were never affected, which is why this went unnoticed — it hit everything else, multichar included.
+
+---
+
+# UPDATE 1.2.79 | 07/08/2026
+
+## Fixes
+- **Settings are no longer deleted when a script's schema falls behind.** A saved value with no matching entry in the script's settings file was dropped on every restart — whole lists could disappear with only a debug line to say so. Values are now kept, and start being used again the moment the script declares them.
+- **ESX money and account reads fixed.** Three qb-core shapes had been copied into the ESX bridge where they cannot work, so these were silently failing on every ESX server.
+
+## Added
+- **`lib.money.onChange`** — one event for a player's balance changing, on any framework, with a signed amount and the new total. ESX, QBCore, QBX and ND all report this differently (some send the change, some send the new balance, across three separate events); this normalises them into one.
+- **`lib.player.getAccounts`** — every money account and its balance in one call, instead of looping over account names you had to know in advance.
+- **`lib.player.getSourceFromIdentifier`** — a server id from an identifier, on any framework.
+- **bp_inventory support.** Registered ahead of ox_inventory, since bp declares itself as ox and would otherwise be detected as the wrong inventory.
+
+---
+
 # UPDATE 1.2.78 | 17/07/2026
 
 ## Fixes — devix-inventory bridge
