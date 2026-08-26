@@ -10,5 +10,18 @@
     "dirk_projectCars": "1.1.7"
   },
 
-  "announcements": []
+  "announcements": [
+    {
+      "id": "script-studio-launch-2026",
+      "kind": "update",
+      "title": "Every dirk script now shares one settings panel",
+      "body": "Script Studio replaces the separate config menu each script used to carry. One place for all of them, one search across the lot, one save bar and one change history. Your old /resource commands still work and open the same panel.",
+      "action": { "label": "Read the changelog", "changelog": "dirk_lib" },
+      "stamp": "26 Aug",
+      "bannerKicker": "New",
+      "bannerWord": "SCRIPT
+STUDIO",
+      "pin": true
+    }
+  ]
 }
