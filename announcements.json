@@ -1,26 +1,25 @@
 {
   "$comment": "Read by dirk_lib's Script Studio panel. Public on purpose: this is fetched unauthenticated from raw.githubusercontent by every server that runs a dirk script. Nothing in here is private, and nothing in here is trusted as markup - the panel renders plain text into a card it designed.",
-
   "schema": 1,
-
   "versions": {
     "dirk_lib": "1.2.80",
     "dirk_fishing": "2.0.65",
     "dirk_multichar": "1.5.6",
     "dirk_projectCars": "1.1.7"
   },
-
   "announcements": [
     {
       "id": "script-studio-launch-2026",
       "kind": "update",
       "title": "Every dirk script now shares one settings panel",
-      "body": "Script Studio replaces the separate config menu each script used to carry. One place for all of them, one search across the lot, one save bar and one change history. Your old /resource commands still work and open the same panel.",
-      "action": { "label": "Read the changelog", "changelog": "dirk_lib" },
+      "body": "Script Studio replaces the separate config menu each script used to carry. One place for all of them, one search across the lot, one save bar and one change history. Your old commands still work and open the same panel.",
+      "action": {
+        "label": "Read the changelog",
+        "changelog": "dirk_lib"
+      },
       "stamp": "26 Aug",
       "bannerKicker": "New",
-      "bannerWord": "SCRIPT
-STUDIO",
+      "bannerWord": "SCRIPT\nSTUDIO",
       "pin": true
     }
   ]
