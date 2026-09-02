@@ -1,51 +1,23 @@
-# UPDATE 1.3.0 | 26/08/2026
+# UPDATE 1.3.0 | 02/09/2026
 
-## Script Studio — one settings panel for every dirk script
+## New — Script Studio
 
-Every script used to carry its own config menu. Same panel written over and
-over, each one slightly different, each one needing its own command to find.
-They are now one.
-
-- **One panel, every script.** `/dirk_config` opens the lot. Each script keeps its own page, and your old per-script commands still work — they open the same panel on that script's page.
-- **Search across everything.** Type "webhook" or "permit" and get matches from every installed script at once, jumping straight to the setting. Finding a setting no longer means remembering which script owns it.
-- **One save bar.** Changes are collected and saved together, with a count of what you have touched and a way to put any of it back before saving. Nothing is written until you say so.
-- **Maps instead of coordinates.** Anywhere a setting is a place, you get a map and a marker rather than three numbers to paste.
-- **Pickers instead of typing.** Items, icons and peds are chosen from a list with their artwork, and a name you have not installed yet is flagged rather than silently accepted — so you can set gear up before the restart that adds it.
-
-## Logs
-
-- **Every dirk script now logs to one place**, readable in the panel and searchable by script, event, player or text. Nothing to set up: it is on by default and prunes itself.
-- **Discord webhooks are now set up once, here, instead of per script.** Point a webhook at everything, at one script, or at particular events, and add as many as you like. Batched and rate-limited properly — a busy night sends a handful of messages rather than hundreds.
-- Existing per-script webhook settings are read and carried over, so nothing needs re-entering.
-
-## Bridges
-
-- **A page showing what dirk_lib actually detected** — your framework, inventory, target, dispatch and the rest — and letting you override any of it when the guess is wrong. Previously this was invisible, and a wrong guess meant a support ticket.
-
-## What's new
-
-- **Releases and announcements now reach you in-game.** Changelogs are read in the panel, and are fetched fresh rather than being whatever shipped in the build, so you can see what an update contains before you take it.
-
----
-
-# UPDATE 1.2.80 | 17/08/2026
+- **Every dirk script is configured in one panel.** /dirk_config opens it; /<resource_name> opens it with that script already selected. The separate config menu each script used to carry is gone — one search across the lot, one save bar, one change history.
+- **Logs.** Every dirk script's log lines are kept on your own server in a dirk_logs table and read back in the panel — filter by script, event, player, level or time, and open a line for the full payload including every identifier that player had, not just the server ID they happened to hold.
+- **Redirects.** Send matching log lines on to Discord as well as keeping them — to a webhook, or to a channel your bot posts in — filtered by script, event or level. Scripts no longer carry their own webhook settings; an existing one is carried over the first time the script loads.
+- **Any change can now be reverted.** The audit of saved edits — who changed what, and the value before and after — is now readable in the panel alongside everything else, and any line can be put back, which stages it for you to review like any other edit.
+- **Admins.** One place for who can open the panel, replacing the Access tab scripts used to carry. Grants can be a person (picked from who is online, or by identifier for someone offline) or an ACE group. A new **view** level below edit reads settings and logs but can never save and is never sent server-only values such as webhook URLs. Existing per-script grants fold in automatically on first load.
+- **Bridges page.** The overrides you already had, now next to what dirk_lib actually detected on your server, so auto has a face.
+- **Changelogs and announcements in the panel**, fetched from our repo, so you see what changed without leaving the game.
+- **Better controls throughout** — durations, hour-of-day pickers, two-point range sliders, either/or switches that name both sides, and open maps of values. Coordinates and areas are drawn on a real map rather than typed.
+- **A self-check command.** Type dirktest in your server console and the script tests itself against your own inventory and framework — so a bad combination shows up before your players find it, not after.
 
 ## Fixes
-- **Settings panel no longer opens empty for scripts with no server-only fields.** Every field read as blank and Save stayed greyed out, so the script's settings could not be edited at all. Scripts that *do* hide values from clients (fishing) were never affected, which is why this went unnoticed — it hit everything else, multichar included.
 
----
-
-# UPDATE 1.2.79 | 07/08/2026
-
-## Fixes
-- **Settings are no longer deleted when a script's schema falls behind.** A saved value with no matching entry in the script's settings file was dropped on every restart — whole lists could disappear with only a debug line to say so. Values are now kept, and start being used again the moment the script declares them.
-- **ESX money and account reads fixed.** Three qb-core shapes had been copied into the ESX bridge where they cannot work, so these were silently failing on every ESX server.
-
-## Added
-- **`lib.money.onChange`** — one event for a player's balance changing, on any framework, with a signed amount and the new total. ESX, QBCore, QBX and ND all report this differently (some send the change, some send the new balance, across three separate events); this normalises them into one.
-- **`lib.player.getAccounts`** — every money account and its balance in one call, instead of looping over account names you had to know in advance.
-- **`lib.player.getSourceFromIdentifier`** — a server id from an identifier, on any framework.
-- **bp_inventory support.** Registered ahead of ox_inventory, since bp declares itself as ox and would otherwise be detected as the wrong inventory.
+- **Players could be left running on the wrong settings for a whole session.** A client that asked for its config while the server was still building it was marked as loaded anyway, so it never asked again — it served defaults, or, because that cache is shared by every server running a resource of the same name, another server's settings. Shop hours, drawn zones and the language all come from config, so players saw stale or foreign values while an admin (whose panel forces a fresh fetch) saw the right ones. The client now retries until the server answers, and only ever applies a cached config the server has confirmed is its own.
+- **Change history listed edits nobody made.** Fields inside a list row take their default from the shipped row rather than the field, which the diff did not know, so saving any row logged a pile of "default → …" lines for values that never changed.
+- Settings the schema does not declare are no longer deleted from your stored config.
+- An empty server-only payload is sent as nothing rather than an empty object.
 
 ---
 

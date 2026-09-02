@@ -1,3 +1,35 @@
+# UPDATE 2.1.0 | 02/09/2026
+
+## Before you update
+
+- **This needs dirk_lib 1.3.0 or newer.** Update dirk_lib first — fishing's settings now live in its panel.
+
+## The move
+
+- **Fishing's settings now live in Script Studio**, the one panel every dirk script shares. /dirk_fishing still works and opens straight to fishing. Everything from the old panel came across — the fish and equipment editors, the zones map, the Players page, theme, all of it — this is a move, not a rebuild from scratch.
+
+## New
+
+- **Search across every setting.** Type what you are looking for instead of knowing which tab it lives in.
+- **Any saved change can be reverted.** The change history now puts values back, staged for you to review like any other edit.
+- **Read fishing's logs in-game.** Every event fishing reports is kept on your server and readable under Logs — filter by event, player or time, and open a line for the full payload.
+- **A view access level.** Staff can be given read-only access — settings and logs, no saving, and server-only values like webhook URLs are never sent to them.
+- **Per-fish zone modifiers get their own tab** with sliders, instead of a bare number input squeezed into the zone editor.
+
+## Changes
+
+- **Logging is simpler.** Fishing now just reports its events; where they go — kept on your server, forwarded to a Discord channel or webhook, filtered by event — is set once in Script Studio under **Logs** and applies to every dirk script. Your existing webhook is carried over the first time it loads, and the Logging section links straight through. The per-event toggles are now redirect filters, in one place, rather than a second set only fishing had.
+- **The Access tab is gone.** Who can edit fishing's settings is managed on the shared **Admins** page, and any grants you had are folded in automatically.
+- **Fish difficulty bands are worked out from your own fish list.** They were fixed level ranges (1-15, 16-40, 41+), which only made sense at the default max level — a server capped at 30 could never have an Advanced fish, and one running to 300 had almost every fish there. Your fish are now sorted by Info Unlock Level and split into three even groups, so no band is ever empty. On a default setup this moves five fish; daily challenges drawing from a band will pick slightly differently.
+- **Daily challenge options say what they mean** — "Catch N of one species" and "Beginner / Intermediate / Advanced" rather than catch_species and tier2.
+
+## Fixes
+
+- **A rod could not be stowed when nothing was biting.** Abandoning was blocked any time a line was in the water, so with no bite there was no way out — the rod was stuck until you reconnected. It is now blocked only during an actual fish fight, and abandoning cleans up any leftover bite state. (Reported by adragonhunter.)
+- **Players could be left running on the wrong settings for a whole session** — different shop hours, zones and language than the panel showed. The cause and fix are in dirk_lib 1.3.0; fishing ships a test suite entry so it can never come back quietly.
+
+---
+
 # UPDATE 2.0.66 | 07/08/2026
 
 ## New
