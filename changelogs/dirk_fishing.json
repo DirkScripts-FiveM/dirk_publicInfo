@@ -1,0 +1,3056 @@
+{
+  "schema": 1,
+  "resource": "dirk_fishing",
+  "trailingNewline": false,
+  "entries": [
+    {
+      "version": "2.0.66",
+      "date": "07/08/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Built-in test suite.** A console-only `dirktest` command (powered by dirk_lib's new `lib.test`) validates the inventory bridge — add/remove, metadata, can-carry and usable items — plus core fishing logic (XP/level, earnings) against your live setup. Handy for confirming a new inventory is compatible before going live. Run it from the server console; see the docs. (Requires **dirk_lib 1.2.79+**.)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Admin Players panel:** the money/activity stat-tile icons were rendering too small — they now scale properly."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.65",
+      "date": "21/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fishing economy stats in the admin panel** (`/dirk_config` → Players). Staff can now see the money fishing is putting into your economy, so you can spot runaway earners and tune the numbers before it goes ham:"
+                },
+                {
+                  "t": "child",
+                  "v": "**Server-wide (top of the Players list):** total earned from selling — split into **Fish / Fillets / Bait** — plus total catches, total weight and the biggest catch on the server.",
+                  "indent": 2
+                },
+                {
+                  "t": "child",
+                  "v": "**Per player (expand any row):** that angler's earnings with the same **Fish / Fillets / Bait** split, alongside their catch count, weight, species discovered and personal best.",
+                  "indent": 2
+                },
+                {
+                  "t": "cont",
+                  "v": "  Earnings are recorded per sale and read back from a summary table (server-side cached, one indexed lookup — never a scan of the catch log), so opening the panel doesn't hitch even on a busy server. Money counts **forward from this update**: past sales weren't tracked, so the figures build from a clean baseline. Anything sold at the market feeds the totals, trap catches included. (Requested by mnimize.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.64",
+      "date": "19/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "Performance",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Crab-pot fill tick no longer re-resolves every player each tick.** The periodic trap-fill loop looked up each online player's identifier through the framework *every* tick — an O(players) burst of cross-resource calls that, on a high-population server, could stall a single frame (profiled at ~223ms at scale). Each player's identifier is now resolved **once per session and cached**, so the tick does effectively no cross-resource work in steady state. Removes a periodic hitch that grew with player count. (Profiled by reyesmtv.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.63",
+      "date": "15/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**`Disable Permit System` master switch** (Basic → Permits). One toggle turns off the ENTIRE licence system — the global market licence, per-zone and per-fish permits, the store peds' Manage Permit option and permit purchases. Previously the market's global licence check had no off-switch at all, so servers running their own licensing couldn't fully disable ours even with every `permitRequired` flag off. (Reported by groovies.)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Lithuanian (`lt`) locale added** — translation contributed by snaiperiukas, ačiū! Set the language to `lt` in `/dirk_lib`."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Destroyed crab pots can now be pulled in.** The \"Trap Broken\" interaction was informational-only, leaving broken pots stuck in the world forever. It now opens the trap so you can pull it in — you keep whatever it caught, the pot and bait are consumed. (Reported by mnimize.)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish finder can no longer lock itself in your inventory.** The use-item flow waited on a server↔client round-trip; if that round-trip died (client error, or an anticheat blocking dynamic callback events), the inventory kept the item flagged in-use until a restart. The water check now runs entirely client-side and the item is released instantly. If you run ElectronAC or similar, also whitelist events starting with `__dirk_cb_`. (Reported by snaiperiukas.)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Server hardening:** the fish-finder grid lookup no longer errors (\"table index is nil\") when a client sends an invalid cell key."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.62",
+      "date": "10/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Server exports for the fishing XP / level system.** Other resources can now read and award fishing progression:"
+                },
+                {
+                  "t": "child",
+                  "v": "`exports.dirk_fishing:getXp(src)` → current fishing XP",
+                  "indent": 2
+                },
+                {
+                  "t": "child",
+                  "v": "`exports.dirk_fishing:getLevel(src)` → current fishing level",
+                  "indent": 2
+                },
+                {
+                  "t": "child",
+                  "v": "`exports.dirk_fishing:addXp(src, amount)` → grant XP (returns new total)",
+                  "indent": 2
+                },
+                {
+                  "t": "child",
+                  "v": "`exports.dirk_fishing:removeXp(src, amount)` → take XP, clamps at 0 (returns new total)",
+                  "indent": 2
+                },
+                {
+                  "t": "child",
+                  "v": "`exports.dirk_fishing:setXp(src, amount)` → overwrite XP (returns new total)",
+                  "indent": 2
+                },
+                {
+                  "t": "cont",
+                  "v": "  All take a server id and update the player's level-derived UI live. Levels use the same curve as the guidebook, so exported values always match what the player sees. (Requested by emmanx.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.61",
+      "date": "09/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Norwegian (`no`) locale added.** Set the language to `no` in `/dirk_lib` to run the fishing UI in Norwegian. (Translation contributed by mnimize — thank you!)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.60",
+      "date": "09/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Per-fish meat item is now editable in the fish editor.** Each fish already supported a per-species meat override (gutting that fish grants a specific item instead of the global meat) — it's now a proper item dropdown in `/dirk_config` → **Fish → Gutting**, so you can set e.g. oyster → `oyster_meat` without hand-editing JSON. Leave it empty to use the global meat item. (Requested by mnimize.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.59",
+      "date": "09/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The UI now uses your configured currency symbol everywhere.** Money values across the fishing UI — stores, fish market, bait market, tournaments, daily challenges, permit prices, the guidebook and the admin panel — were hardcoded to `$`. They now all read the currency you set in `/dirk_lib` (Basic → Currency), so changing it updates the entire UI in one place. (Reported by mnimize.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.58",
+      "date": "08/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Buying from a store with a full inventory no longer charges you.** The shop now adds your items first and only takes payment for what actually fits — so a full (or partially-full) inventory can never leave you \"charged but no items\". If nothing fits you pay nothing; if only some fit, you're only charged for those. (Reported by mnimize.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.57",
+      "date": "08/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "Improvements",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Traditional Chinese (zh-TW) refreshed** with a community-finalised translation — more accurate terminology across the interface. (Thanks to kaijun for the corrections.)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.56",
+      "date": "06/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fishing level now updates live — no relog needed.** The guidebook level (and the rod loadout's equipment gates + catch difficulty) read the player's level from the framework's client-side data, which on some frameworks (e.g. QBX) didn't refresh when XP was gained — so the level only caught up after a relog. The server now pushes the new XP to the client on every gain, so it reflects immediately."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Tournament start/end pickers use your local time.** The one-off tournament date/time fields *displayed* in UTC while *saving* in local time — a mismatch that showed the wrong time and made it easy to set the wrong start/end. They now show and save consistently in your local timezone."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.55",
+      "date": "05/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish with no description can be saved/edited again.** Since 2.0.53 item descriptions come from your inventory item (with the config value only a fallback), but the fish editor still *required* one — so any fish without a description couldn't be saved, which blocked editing them at all. The description field is now genuinely optional, matching equipment, bait and tools."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.54",
+      "date": "05/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Rods, traps and dig tools now work on inventories that don't hand the script a slot when an item is used (devix, older tgiann)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Using a rod / trap / dig tool now works on non-ox inventories.** On some inventories (devix, and older tgiann via the ESX use path) using the item didn't pass its inventory slot through — which errored the rod/trap out entirely (it'd come out sometimes and not others) and stopped bait digging. The script now recovers the slot by looking the item up in your inventory, so it works whether or not the slot came through on use. No change on ox_inventory."
+                },
+                {
+                  "t": "cont",
+                  "v": "> Requires **dirk_lib 1.2.68** or newer — it ships the matching inventory image-path fixes (cold-boot icons, devix, and older tgiann)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.53",
+      "date": "05/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Item names & descriptions now follow your inventory — translate once, everywhere."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish, equipment, bait, dig tools and store items now display the name + description straight from your inventory item** (ox_inventory, etc.). Translate/rename an item once in your inventory and it updates everywhere in fishing — the book, fish/bait markets, catch popup, traps, gutting, notifications, loadout and the admin panel. No more keeping a second set of labels in the fishing config in sync."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Type-your-own item picker.** When adding a new fish/piece of equipment/tool you can now type a brand-new item name in the picker (not just pick an existing one) — the Label/Description fields then appear so you can seed it, and it's written into the generated install snippet."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Improvements",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The config **Label/Description fields are now the \"seed\"** for an item: editable while the item isn't in your inventory yet, then locked (with an ℹ️ \"from your inventory item\" hint) once it is — so it's always clear where the live value comes from. The admin lists and editors show the resolved inventory name too."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Dig-tool edits now save.** Renaming/changing a dig tool's item silently dropped the edit — fixed (the save matched the new name instead of the original). The same class of save bug was hardened across the equipment editors."
+                },
+                {
+                  "t": "cont",
+                  "v": "> **Heads-up:** names + descriptions now come from your **inventory item**. Nothing breaks if an item has no description — fishing falls back to its own built-in text. But to show *your own / translated* descriptions, set them on the items in your inventory (e.g. `ox_inventory/data/items.lua`)."
+                },
+                {
+                  "t": "cont",
+                  "v": ">"
+                },
+                {
+                  "t": "cont",
+                  "v": "> Requires **dirk_lib 1.2.67** or newer (item descriptions are surfaced by the shared item list)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.50",
+      "date": "04/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Follow-up to the localisation pass."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Config-panel sidebar now translates.** The left-hand section names (Basic, Theme, Players, Fish, …) stayed English even after switching language, because they were resolved once when the panel first loaded rather than in the active language. They now translate and update live on a language change — matching the tabs and field labels. Same fix applied to the fish water-type toggle and the zone editor's tabs."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.49",
+      "date": "03/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Localisation completeness pass — every language is now fully translated, so no more half-translated menus."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Every language is now fully translated.** A batch of newer strings — mostly the admin config-panel labels, plus the Big Fish / gutting / trap options added in 2.0.48 — hadn't been translated yet, so those specific lines fell back to English and the menus looked half-and-half. Spanish, Portuguese, Italian, French, German and Traditional Chinese are now complete against English."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Three labels that showed in English in every language** — Access, Theme and Depth Limit — had no translation entries at all; they're now defined and translate properly."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.48",
+      "date": "03/07/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "A big round of feel and quality fixes from live server feedback — the reel, the catch camera, and crab traps all got attention — plus an optional \"big fish are harder\" mode, a reorganised gutting config tab, and a stack of config-panel fixes. Traditional Chinese (zh-TW) is now available."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "> Requires **dirk_lib 1.2.64** or newer."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "New features",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Optional \"Big Fish Difficulty\".** A new toggle (Basic → Fishing) makes heavier individual fish genuinely harder to land — a tighter catch zone, faster movement, and a harsher drain the bigger the fish. Three sliders tune each axis. **Off by default**, so nothing changes unless you turn it on."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Gutting has its own config tab.** Moved out of the crowded Basic tab into a dedicated Gutting tab with General / Rewards sub-tabs, a \"Cut Forgiveness\" slider to set how strict the cut line is, and a gut-reward list that scrolls under a pinned header instead of getting cut off."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Global gut-reward pool editor.** Manage the shared gut-reward drops (items + chances) right in the panel (Gutting → Rewards) instead of editing the config by hand."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Traditional Chinese (zh-TW).** Now selectable in the language dropdown — thanks to a community translation."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Reeling reworked.** The scroll wheel now only reels in — no more accidental \"recast\" when you scroll the other way — it's a touch gentler, and reel speed now scales with water depth, so shallow water isn't frantic and deep water isn't a slog."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Casting from docks / banks into shallow water.** Casting from an elevated spot over shallow water no longer casts and then instantly ends — the cast-time and landing depth checks now agree, so a spot either shows a clear \"too shallow\" marker or actually fishes."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Catch camera no longer snaps.** The reward zoom now plays its full blend and waits for the fish to be visible, instead of occasionally cutting straight to it."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Crab traps no longer silently vanish.** Traps that seemed to \"disappear\" were actually breaking. Break chance is much lower by default and fully editable (Basic → Traps → Chance of Break — set 0 to disable). A broken trap now stays put with a red marker and reads \"Trap Broken\" when you look at it, then clears itself over time — no more mystery disappearances."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Trap contents no longer flicker.** Keeping or releasing one fish from a pulled trap no longer re-animates the whole list — only the one you picked leaves and the rest slide up."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Gutting rewards track your cut.** A cut you don't actually complete now pays nothing (no more clicking a single point twice for a free reward), and the reward scales with how accurate the cut was."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Secondary reel keybind works.** The alternate reel-in / reel-out key genuinely wasn't firing — fixed."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Ultrawide rod prompt.** The in-world \"Modify Rod / Cancel\" prompt no longer stretches sideways on 21:9 / 32:9 monitors."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Config-panel crash hardening.** Opening a config section (stores, zones, fish, equipment, bait, tournaments…) with an empty list no longer crashes — including the Stores section, which could throw on a store with no locations, stock, or categories."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Gut-reward editor now saves.** A reward row left without an item was silently blocking the whole fish from saving; blank rows are dropped on save so your rewards stick."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Optimisation",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish and trap props are far smaller.** Every streamed fish/trap model was re-optimised — the prop pack dropped ~68% (from ~330 MB to ~105 MB), with textures normalised to compressed DXT1 + proper mipmaps. That's a big cut to streaming VRAM / cache pressure with no visible quality loss (a few smooth metallic fish keep uncompressed normal maps to stay sharp)."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.47",
+      "date": "26/06/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish-fillet selling and logging that can flow to Grafana / Loki / Fivemanage (not just Discord), on top of a round of feel + crash fixes from live server feedback: the catch minigame now lands fair clicks, reels actually respect their depth rating, traps stay put and place where you look, and a join-time crash that could block character creation is gone — plus a big cut to crab-pot server cost."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "> Requires **dirk_lib 1.2.62** or newer — it ships the logging backends, the per-resource access model, and the framework-bridge fix the join-crash fix below depends on."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "New features",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Sell fish fillets.** Gut a fish for a fillet, then sell it at any market that stocks that species — priced off the live market rate with a configurable filleting bonus on top. (Selling sliced / filleted fish was a community request.)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Logging now reaches beyond Discord.** Route your logs to Grafana (Loki), Datadog or Fivemanage as well as — or instead of — a Discord webhook, set up centrally in dirk_lib. Every sale and purchase log now itemises exactly what changed hands and for how much, and catch logs include the exact weight."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**\"Test webhook\" button.** Sends a sample of every event you've enabled so you can confirm your logging setup at a glance — with the long event list split into its own tab."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Delegate configurator access.** A new Access tab lets you give trusted staff access to the fishing config without making them a full server admin."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Per-resource Theme tab.** Override the global dirk_lib theme just for fishing's panels — pick a palette + shade or set a full custom 10-stop palette — so fishing can match your server's look without touching every other dirk script."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Catch minigame — a good click no longer reads as a miss.** The visible bite \"bell\" is now locked to the exact window you can actually hit, and synced to the server clock, so clicking on the bite lands the strike (the old mismatch drifted worse the busier the server got). Added a small strike rate-limit on the server as anti-cheat."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Join crash that blocked character creation.** A \"Player does not exist\" error during early player load could stall op-multicharacter so new players couldn't make a character (and could crash the admin Players tab). The framework bridge now fails safe instead of throwing, and the client now waits for a valid player ped before it starts up — so players whose character uses a custom ped (animals / custom models) or who load through a multi-character menu no longer crash during that same early-load window. **Updating dirk_lib is required.**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Permit animation no longer plays on everyone nearby.** Pulling out your fishing permit played the pull-out animation on every player standing within a few metres — now only the person presenting it animates; others still see the card."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Crab pots stay on-spot.** Retuned the buoy physics so a placed trap holds its position instead of drifting or sinking off where you dropped it, while still bobbing naturally on the water."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**UI errors / panels failing to open after a live restart fixed.** Restarting the resource while players were connected could spam a `no UI frame` error and leave the guidebook (and other panels) unable to open, because the interface's ready-gate didn't re-initialise. The gate now keys off the script's own UI readiness — so it re-opens correctly on every restart — and covers a couple of send paths that previously slipped past it."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**core_inventory: blank item icons + rod equipment fixed.** On core_inventory the shop and loadout icons showed blank and rod parts (reel / line / hook) wouldn't fit onto the rod — both resolved. Requires the latest **dirk_lib** update."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Selling fish no longer silently fails on ox_inventory.** A strict item-matching quirk meant a sale carrying weight data could \"complete\" without removing the fish or paying out — the item is now removed and you're paid correctly (this affected fillets and weighted catches)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Permit purchase now tells you when you're short.** Buying a permit you can't afford previously showed nothing at all; you now get a clear \"not enough money\" message instead of a dead button."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Voice now always works while fishing.** Push-to-talk stays enabled whenever you're holding the rod or placing a trap, regardless of your keys-while-fishing setting — so you can still talk mid-cast even on an older config."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Depth no longer reads wild values on pools / rooftop water.** On non-natural water (MLO pools, rooftops) the line now stops at the real surface using collision, capped by a new max-artificial-depth setting, instead of plunging to a strange number — real ocean / river / lake water is detected and unaffected."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Bait digging: no more false \"already dug here\" when you're alone.** Your own finished or interrupted dig spots no longer block you (only other players' active spots do), and a completed spot now locks for a short regen window so you naturally move on. Stale spots are cleared on disconnect / idle."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**More strings localised.** A batch of labels that were showing their raw key — plus the gutting prompts — now read properly, in both English and Spanish."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Gameplay",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Reels now enforce their depth rating.** Your line stops sinking at the equipped reel's max depth instead of always reaching the bottom — a cheap reel fishes shallow, deep-sea reels reach the deep marks. The depth indicator shows a marker at your reel's limit and a \"Reel Limit\" cue when you bottom out, so you know when it's time to upgrade."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Trap placement follows your camera.** The placement ghost now sits where you're *looking* rather than where your character is facing, so dropping a pot feels natural."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Bites now reflect fish size.** A bigger catch pushes a taller, bolder bite on the nibble strip while small fish stay subtle humps — a visual tell only; the strike window itself is unchanged."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Bait-dig fields reworked.** A dig field now seeds a set number of reward tiles (default 5–10 of the 25) in random spots each dig, rather than a flat per-cell density — tidier and easier to balance. (The admin control is now a tile count, not a %.)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Performance",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Crab/lobster pots are far cheaper to run at scale.** Each pot now precomputes its catchable-species list and only ticks while baited and not full, and the stale-pot sweep is amortised — cutting passive trap server cost ~5× on busy servers (a 3,000-pot server's tick dropped from ~20ms to ~4ms), with no change to catch rates."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish-caught history writes in bulk.** Catch records are now batched into periodic bulk inserts instead of one insert per catch, cutting database round-trips on busy servers. Collection stats, the book and leaderboards stay live — they reflect a just-caught fish immediately."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.43",
+      "date": "20/06/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The big one — Discord logging, a stack of community-requested features, completed Spanish, and a round of performance + crash fixes. Everything since 2.0.28 in a single release (the versions in between were incremental/testing)."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "> Requires **dirk_lib 1.2.59** or newer — it ships the webhook helper plus the inventory-detection and metadata fixes this release relies on."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "New features",
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Discord webhook logging"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**New Logging tab in the configurator.** Point it at a Discord channel webhook and choose exactly which events to log. Everything is **off by default** — nothing is sent unless you set a webhook URL *and* turn logging on *and* enable the specific event."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Loggable events:** fish sold, bait sold, equipment bought, permit bought, fish caught, crab pot placed, crab pot collected, daily challenge claimed, and tournament payouts — each an independent toggle."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Exploit flagging.** Set a \"suspicious sale\" amount and any sale paying out over it is flagged red with a warning, so you can spot someone abusing the job at a glance."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The webhook URL is server-only** — stripped from everything sent to clients; only an admin in the panel can set it. Customisable embed name, avatar and colour."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Tournaments"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**\"Most Combined Weight\" scoring mode** — rank players by the total weight of all their catches, not just their single heaviest fish."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Late join** — a per-tournament *Allow Late Join* option lets players enter an in-progress tournament any time before it ends (ideal for long, all-day events)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Survive a server restart** — status, timing, participants and scores now persist, so a restart mid-event no longer wipes (and silently cancels) a live tournament."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Configurator & zones"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Per-zone fish modifiers, now editable** — a Species tab on the zone editor lets you give a zone custom abundance / weight / bite-chance overrides per fish (e.g. a secret spot where a rare species runs more common or bigger)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Per-species overrides replace, not stack** — a per-fish modifier cleanly replaces the zone-wide one for that species (empty fields inherit), so no more multiplicative math. Tidier rows with +/-% summaries."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Base price** is now shown on fish rows in the admin list, respecting your kg/lb setting."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Stores & controls"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Disable the built-in shop** — new *disableBuiltInShop* option hides the Open Store / Buy Equipment / Sell Bait ped interactions (keeping Manage Permit + Get Guidebook) for servers running their own shop system."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Talk while fishing** — new *keysWhileFishing* option keeps chosen controls (push-to-talk by default) enabled while holding the rod or placing traps. Add more (phone, etc.) via config."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Security",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Admin panel hardened.** The player-management actions (view roster, set fishing level) now require the same configurator permission as the rest of the admin panel, and the trap & permit admin actions were brought onto that same permission — so admin-panel access is governed by one consistent setting. **Updating is recommended.**"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**qs-inventory: rod parts and bait now save.** On qs-inventory the reel/line/hook fitted to a rod — and its bait count — silently failed to persist (parts vanished on re-read, bait never went down). The fix lives in dirk_lib: qs stores item metadata under its own `info` field while the lib read it back as `metadata`, so nothing round-tripped. The bridge now mirrors the two on every read, so any dirk resource on qs-inventory benefits. (Also fixes qs-inventory being misdetected as qb-inventory — part of the same root cause.)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Cast crash on newer game builds (b3751+)** — a physics call on the fishing line could intermittently crash the game when a cast landed. Removed; the engine simulates the rope itself."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Trap-caught fish now unlock in the fish book** — crabs, lobster etc. pulled from traps were added to inventory but never recorded to your collection."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Trap inspect/place error** — a bug that made the buoy flicker and the inspect occasionally fail."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Rod-indicator item images** no longer break on inventories whose image path ends in a slash, and respect names that already include an extension."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Trap pickup keeps the real fish weight.** Fish still inside a trap when you picked it up reverted to a default weight (so they sold for the wrong price) and could bloat your carry weight. They now keep their true weight, like every other catch."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**A hooked fish is released the instant you disconnect.** Previously, if you hooked a fish then disconnected, it stayed locked to you until the area refreshed (~5 minutes), blocking other players from it. It's now freed immediately."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish taken one at a time from a trap now count.** Taking individual fish from the trap-inspect menu gave you the fish but never recorded it to your collection book or the leaderboards (collecting the whole trap at once did). Every trap fish now counts."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Permits with no price or duration no longer fail silently.** A fish/zone permit configured without a price or interval couldn't be bought (the purchase just did nothing). It's now handled gracefully, and the zone editor requires both fields when a permit is enabled — matching how fish permits already worked."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Performance & stability",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Leaderboards & stats now scale to millions of catches.** The global leaderboard and overview used to add up your server's *entire* catch history on the spot every time someone opened them — fine early on, but progressively slower as the log grows. They now read a compact per-player summary that's kept current as fish are caught, so they stay fast no matter how large the catch log gets. Your full history is untouched: a one-time automatic build creates the summary on first start (in the background, chunked so it never stalls the server), and a nightly self-check keeps it perfectly accurate. The \"today's top\" panel also stopped scanning all history to find today's catches."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish-catch handler rebuilt — roughly 13× faster.** The catch event (the heaviest item in a customer's profiler) dropped from ~85 ms to ~6 ms per catch: framework and inventory lookups are now cached, three database queries were collapsed into one, and the catch record writes in the background. Even faster on ox-based stacks."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**No database write holds up a catch anymore.** Saving your daily-challenge progress was the last write that made a catch wait on the database before it finished — it now saves in the background like the catch log and leaderboards already did. That's one fewer database round-trip on *every single catch*, trimming the per-catch time again on top of the rebuild above (on an ox test stack the catch now runs in the low single-digit milliseconds, with no database wait left on the path)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Catches no longer read the database either.** The per-catch lookup that fetched your collection stats (first catch of a species, personal best, times caught) is now served from an in-memory cache that loads once when you connect and updates as you fish. So a catch does **zero** database reads — and that lookup can no longer slow down as your catch history grows into the thousands, which keeps the catch fast on long-running servers with huge logs."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Overview tab is lighter to open.** It now loads everything in a single request (was three), runs fewer database queries, and caches the result — so re-opening the guidebook Overview doesn't re-query every time."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Lower idle CPU on the client** — the strike-input loop no longer runs every frame when you aren't actively fishing."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Leaderboard freeze fixed.** Opening the guidebook's global leaderboard could hang the entire server up to ~19s when many players were online — it resolved each ranked player's online status one row at a time, each walking the whole player list. It now resolves every online player once up front. (Only ever appeared under load.)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Passive trap fill-tick hitch fixed** — the ~90s trap fill did the same per-player scan for every placed trap, on autopilot. Now resolves online players once per tick."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Store-open hitch halved** — stores/markets fetched the player's level twice per open; now once. The buy-shop menu is also precomputed once instead of rebuilt per open (which, under many simultaneous opens, could crash a busy server)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Lighter startup** — removed a redundant per-player tournament sync that rebuilt full state on every join; the book pulls state on its own when opened."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Cleaner long-uptime memory** — trap and fish-population state is now released properly on disconnect (it was bound to an event that never fired)."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Localisation",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Spanish (es) is now complete** — ~300+ missing strings filled across the script and the new logging panel, so a server set to Spanish no longer falls back to English."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.28",
+      "date": "14/05/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Hotfix round — store editor + book map crashes, lbs/kg display alignment, optional strict catch-level gate."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Bug fixes"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Store editor stock tab crashed on equipment stores with Misc items.** Default Misc entries use `ref` (e.g. `basic.fishGuttingItem`) instead of a literal item name, and the stock filter assumed every entry had a `name` field — `undefined.toLowerCase()` blew up the whole modal. Defensive coalesce + `ref` is now searchable too."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Stock rows with `ref` entries now display properly.** Was showing \"Unknown\" because the row tried to look up an undefined item name. The row now resolves the ref against the live scriptConfig and pulls the underlying item's label + image. Switching a ref entry to a hardcoded item via the Item dropdown clears the ref automatically."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Book map crashed when opening a trap.** React error #310 — a `useCallback` declared after the `if (!trap) return null` early return caused the hooks count to differ between renders. Hooks reordered above the early return."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Admin Players tab wasn't sorting online players to the top.** Typo bug introduced with the 2.0.26 sort feature — `lib.inventory.identifier` instead of `lib.player.identifier` in the online-IDs collection. The pcall wrapping it swallowed the error silently so the online list was always empty and the SQL had no IDs to bubble up. Online players now actually sort first across all pages. Removed the unnecessary pcall too, so future typos don't hide themselves."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Every trap catch displayed as \"Legendary\" in the inspect UI.** Server was sending the species' `abundance` value with the trap contents, but the client's content-positions builder dropped that field on its way to the NUI. With `abundance` arriving as undefined, the rarity ramp collapsed to its `< 0.05` legendary bucket for every fish. Field is now forwarded properly — lobsters read as Rare, crabs as Uncommon, etc."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Crab traps ignored the catch-level gate.** Rod fishing's `pickCandidateFish` got the strict-catch-level logic but `rollTrapFish` had no level check at all, so a level-1 player's trap could pull a level-72 King Crab. Trap rolls now respect `basic.skillSettings.strictCatchLevel` using the owner's live fishing level (cached at inspect time so offline rolls still gate sensibly)."
+                },
+                {
+                  "t": "cont",
+                  "v": "### lbs/kg display alignment"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish base price field now respects `basic.weightUnit`.** Admin in `lb` mode sees the BasePrice input labelled \"$/lb\" and the number they type maps to $/lb. Server still stores internally as $/kg (single source of truth) — the input converts on save and on load."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Guidebook Fish tab price row** swapped from hardcoded `$X/kg` to `fmtPricePerWeight()` so it follows the server's weight unit setting."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Catch level gate"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**New `basic.skillSettings.strictCatchLevel` toggle (default `true`).** When on, a player can only catch fish at or below their fishing level — matches what the fish markets already require for selling. Stops the \"I caught it but can't sell it\" experience. Set to `false` to restore the previous behaviour where fish up to 10 levels above are catchable at a reduced rate."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.26",
+      "date": "11/05/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "> Requires **dirk_lib 1.2.43** or newer."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Headline:** fish gutting has been fully redesigned. Two minigames now — a drag-along-the-line **cut** for fish, and a click-the-circles-before-they-vanish **crush** for crustaceans and shelled species — plus a top-down cinematic camera, a no-auto-close reward overlay with rarity-coloured tiles, optional tool durability, and one universal meat item that carries species metadata so the inventory tooltip reads `Species: King Crab / Weight: 1.2kg`."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "This release also wraps up a batch of customer-driven fixes from tickets against 2.0.24/2.0.25, a new schema-driven install + missing-items pipeline that replaces the old hand-rolled install file, and a pile of admin/configurator polish."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Fish gutting — full redesign"
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The old per-species meat-name loop and pulse-timing minigame are gone. Replaced with a single universal meat item, a fresh drag-to-cut minigame, a cinematic top-down camera, weight-scaled fish props, and a reward overlay you close in your own time."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Meat item + tooltips**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "One global fish meat item now covers every species. The species name, weight and label are stored on the meat itself, so on ox_inventory each stack reads as \"Longnose Gar Meat\", \"King Crab Meat\" etc. — not all \"Fish Meat\". Other inventories silently ignore the per-instance label."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Meat tooltip now shows `Species: …` and `Weight: …kg` lines, the same way caught fish tooltips do. Tool tooltips gain a `Uses Left: N` line when durability is on."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish meat now weighs 100g per unit (was 0g), so it actually counts against your inventory carry. Existing test servers may need a one-time manual item-table sync."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The meat item name is now editable from the configurator under Basic → Gutting."
+                },
+                {
+                  "t": "cont",
+                  "v": "**Scoring**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Accuracy is now monotonically decreasing — drifting off the line drops your score and getting back on stops the bleed, but doesn't recover. The old running-average let you cheese a bad opening with a clean ending."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "0% accuracy now grants 0 meat. Botching the minigame used to still pay out half a meat; it doesn't any more. Bonus drops (worms, etc.) still roll on their own chances."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Final score combines accuracy × speed × progress. Speed bonus tops out at +30% for sub-2s cuts and decays to baseline by 6s — slow-and-clean still pays, sloppy-and-fast can't beat clean-and-slow."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The \"Accuracy\" number on screen during the minigame is now the same number the server actually scores you on. No more mid-cut display drift."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Line tolerance is tighter and the cursor-trail dot thresholds are stricter — you have to actually be on the line for green dots, not just near it."
+                },
+                {
+                  "t": "cont",
+                  "v": "**Camera + scene**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Cinematic top-down camera 1.8m above the fish, rotated to match your heading so the cut reads left-to-right from your point of view. 600ms blend in, 500ms blend out."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish prop spawns 0.8m in front of you, on its side, belly facing you."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Prop is now scaled to the caught weight — a 5kg gar looks 5kg on the cutting board, same as it does in the reward UI and held in your hands."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Player kneels during the cut."
+                },
+                {
+                  "t": "cont",
+                  "v": "**Cut minigame**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Every open generates a fresh randomised S-curve — the line is never the same twice."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Click-drag from the start dot and trace the line. Progress only advances while you're actually on it — \"drag near it = win\" is gone."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Knife cursor with a tolerance halo, both flip red when you go off-line. OS cursor hides during the cut."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Trail dots drop at the cursor's actual position, colour-coded per tick (green clean / accent ok / red off) — you can see exactly where your knife went."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Cancel rules: pre-cut Esc cancels cleanly and your fish stays in your inventory. Mid-cut mouse-release commits with reduced progress (no bailing). Reaching the end gives full progress."
+                },
+                {
+                  "t": "cont",
+                  "v": "**Crush minigame** (new — for crustaceans and shelled species)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Click the spawning circles before they vanish. Each circle shrinks and changes colour as its timer runs out. Hit = green marker, miss = red marker."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Circle lifetime scales with species rarity — common species are forgiving, rare ones (Lobster, King Crab) demand quicker reactions."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Default seed sets crush on Blue Crab, Freshwater Prawns, Stonecrab, Dungeness Crab, Lobster, King Crab, Snapping Turtle and Turtle. Every other species stays cut."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "New `meat_mallet` tool item required for crush species — seeded into both equipment store stocks at $120. Image needs adding manually to `INSTALLATION/itemImages/meat_mallet.png` (and copied to your inventory's image folder)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Reward overlay, camera, prop spawn, durability and timeout all shared with the cut flow."
+                },
+                {
+                  "t": "cont",
+                  "v": "**Reward overlay**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "No auto-dismiss — you close it when you're ready."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Big colour-tiered verdict line (Clean / Good / OK / Sloppy for cuts; Clean Harvest / Good Harvest / OK Harvest / Botched for crushes) above an accuracy %."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Square reward tiles in a row: meat tile first, then any bonus drops. Quantity overlays the top-right of each tile (the meat tile shows weight in kg). Rarity overlays the bottom-centre, coloured by drop chance (common → legendary)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Tiles cascade in. Dismiss by clicking the backdrop or pressing Esc."
+                },
+                {
+                  "t": "cont",
+                  "v": "**Other**"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "`basic.gutting.useMinigame` toggle (default on) — silent skill-only flow if you'd rather not have a minigame at all."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Every species now has its own reward pool + worm chance configured in the schema."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Tool durability (optional)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "New `basic.gutting.toolsBreak` toggle (default **off**). When on, the fish knife and meat mallet lose one use per cut/crush. Tool is removed at 0 uses with a notify."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Max uses tunable: 50 by default for the knife, 40 for the mallet."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Inventory tooltip shows `Uses Left: N` under the tool. Fresh tools show nothing until first use."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Defaulted off so existing servers don't suddenly start eating tools on upgrade."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Admin UI"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "New \"Gutting\" subsection in BasicSection. Holds both tool items, the durability toggle, the max-uses inputs and the meat item name — everything gutting-related in one place."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Per-fish minigame type toggle in FishSection's Gutting tab — pill-style Scissors / Hammer segmented control. Min/max circle-count inputs appear only when Crush is selected."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Equipment section's \"New\" button no longer collapses the header row when you switch to the Misc tab (the layout shift was distracting)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Players tab now sorts online players to the top of every page (instead of scattering them across pagination) — you can find who you need in one click."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Store stocks — admin-configurable"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Store stock entries can now reference admin items by key (e.g. `basic.fishGuttingItem`) instead of hardcoded names. Change an item's name in the configurator and the equipment store automatically starts selling the new name — no stock-list edit needed."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The four misc entries in both equipment stores (fish finder, gutting tool, crushing tool, boat anchor) all use refs now. The anchor item was previously unsold and is now $200 in Misc."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The Misc tab in the equipment admin is now driven by the schema, so adding a new tool in future is a one-line config edit instead of a frontend change."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Variance UX"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Help-icon tooltips on the variance min/max inputs in StoreSection explain the signed-% semantics (-100 = free, 0 = base, +100 = double, rolled per server restart)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Live `$/kg` preview row under each fish stock entry — no more guessing what `[-5, +5]` means in dollars for that fish."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "The Base Price input defensively handles old array-shape data so a stale NUI session can't crash the Ecology tab during a migration."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Schema-driven install + missing-items audit"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "New `x-installItem` schema annotations describe every item the resource needs registered (rods, reels, lines, hooks, bait, weights, traps, dig tools, fish, plus all the basic-section items). One annotation drives both the install-file generator and a missing-items audit."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "dirk_lib now rewrites `INSTALLATION/itemsToAdd/{ox.lua, qb.lua, esx.sql}` automatically after every config load + change. Old `src/server/install.lua` is gone."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "ESX SQL output now matches the actual ESX legacy `items` table schema (`name, label, weight`) — the previous hand-rolled SQL declared a non-existent `description` column and would fail to import on some servers."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Server console warning fires once on resource start listing missing items, with a pointer to `INSTALLATION/itemsToAdd/`. Capped at 5 names + \"and N more\". Silent when nothing's missing."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "A missing-items banner now auto-appears above the configurator tabs when items are missing, with a refresh button. No code change needed in the resource — it's driven entirely by the schema annotations."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Item-name dropdowns across the admin now show a raw value + amber ⚠ when a configured value isn't registered in your inventory's items table. No more silently-blank dropdowns hiding misconfigured fish/bait/tool refs."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Plumbing / robustness"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "\"Unknown command\" notification spam on key-release fixed. Several keybind-bound commands didn't have a matching release handler, which on some chat resources surfaced as a notification on every key-up. Silenced."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Every user-facing string in the new gutting UI goes through the localisation system — fully translatable."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fixed the live \"Accuracy: %%\" display rendering as a literal double-percent (locale only escapes `%s`, not `%%`)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "NUI messages now no-op cleanly before NUI is ready and after the resource stops — removes a thin source of console spam during boot/stop."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Removed the old `/fishingGear` and `/allFish` debug commands and their startup print spam. Remaining debug commands still gate on `basic.debug`."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Lib-side fixes shipping alongside this release"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Release zip now ships `schema.json`** — fixes the FiveM warning some servers saw on first boot."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**ESX bridge permit-purchase crash fixed** — `getMoney` against a missing account no longer hard-errors, and the bridge now resolves `cash` ↔ `money` automatically so consumers don't have to special-case ESX legacy's account naming."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Inventory lookups overhauled** — direct native fast-paths added for `ox_inventory`, `tgiann-inventory`, `ak47_inventory`, `dirk_inventory`, `qb-core`, `qbx_core` and `es_extended`. `qs-inventory` and `codem-inventory` use a cached fallback. Edge case fixed where an inventory's own items table (e.g. qs-inventory) was being shadowed by the framework's — no more \"item exists in the inventory but the lookup says it doesn't\"."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.24",
+      "date": "08/05/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "> Requires **dirk_lib 1.2.42** or newer — the save-permission and smartMerge fixes below live in the lib."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Live Configurator — store edit modal"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Locations editor reworked.** Each location row now shows the actual `vector4(x, y, z, w)` underneath three actions: **Goto** (teleport you there), **Set** (walk to a spot in-game and stamp it as the location), **Delete** (with a confirmation modal so accidental clicks don't wipe a setup)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Walk-and-set picking** — pressing Set hides the editor, releases your cursor, and shows a small bottom-right card matching the trap-placement UI: walk to the spot, **press E to confirm** or **Backspace to cancel**. Editor reappears with the new coords pre-filled and your draft state intact. Screen blur drops while you're picking so the world isn't fuzzy."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish edit modal: **Base XP** and **Base Price** moved from Stats/Ecology to **General** where they belong. Bite Chance is now a clean 0–1 control; the rarity pill (`Common`/`Legendary`/etc.) and rarity spectrum bar moved to sit next to **Abundance** because that's what determines rarity now."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fixed Fresh/Salt water-type pills flashing white the first time you open the Ecology tab (framer-motion `initial={false}` so the buttons render in their resolved active state, not the default)."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Save flow"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Save now actually saves for masters.** The chooser-open path was using one permission rule, the save callback was using another — opens worked, saves silently denied with `NoPermission` even for full admins. Both now go through the same authoritative check."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Master-group convar takes a comma-separated list** with a more forgiving default of `group.admin,admin,command`. Whichever your server.cfg actually grants, you'll be in. Override with `setr dirk_lib_master_group <your-perm>` if you want to lock it down."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Save success/failure now toasts.** Successful save shows a green confirmation; failures show red with copy mapped per error code (`NoPermission`, `VersionConflict`, `NotReady`, etc.). No more silent F8 errors and assuming it saved."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Bug fixes"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Store locations weren't persisting deletions.** Caused by `lib.table.merge`'s third argument being `addDuplicateNumbers`, not `overwrite` like the calling code assumed — combined with index-based recursion through nested arrays, every \"deleted\" location came back from defaults on the next load. The smartMerge in dirk_lib now uses a recursive call that respects the \"DB is source of truth\" rule for nested arrays."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Picker overlay no longer uses `backdrop-filter` (poor support inside FiveM's CEF)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Pricing model from 2.0.23 carries forward — fixed `basePricePerUnit` per fish + per-store signed-% variance range with live `$/kg` preview in the editor. Migrations from older shapes still apply on first 2.0.24 boot for anyone upgrading directly."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.23",
+      "date": "08/05/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Pricing model — simplified"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish base price is now a single fixed `$/kg` per fish** instead of a `[min, max]` range. This is the source of truth for what the fish is worth — change it in one place and every market follows."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Stores set a per-fish variance range as signed percentages**, e.g. `[-5, +5]` for ±5%, `[-20, 0]` for \"always at-or-below base\", `[+5, +20]` for a premium market that always pays above. Variance is rolled once per server restart inside the configured range and applied on top of the fish's base price."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Live preview in the editor** — when editing a fishMarket store, each stock row shows the actual `$/kg` range your variance produces against that fish's base price (e.g. `$11.40 – $12.60/kg` next to `-5%…+5%`). No more guessing what a multiplier means."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Removes the old runaway-variance bug (e.g. `+1448%` rolls) — variance bounds are explicit and can't roll outside what you set."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Migration (automatic)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "One-shot migration runs on first start of 2.0.23: existing `basePricePerUnit: [a, b]` collapses to its midpoint, existing store `price: [a, b]` multipliers convert to `variance: [(a-1)*100, (b-1)*100]`. No manual config edits needed."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Editor robustness"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "FishSection's BasePrice input now defensively coerces array-shape data so a stale NUI session (pre-migration shape still in React store) no longer crashes the Ecology tab with `(e || \"\").match is not a function`."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.22",
+      "date": "06/05/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Balance"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Catching minigame retuned for new players. Bar width floor doubled (0.10 → 0.20), drain rate softened on starter gear, fill rate base bumped 0.06 → 0.08 — a level-1 player with starter gear can actually win fights now without it feeling impossible."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Hook strength now level-gated across the full 1-99 range (smallest hooks at L1, biggest at L97). Newbies can't accidentally buy a tuna hook at level 1 and waste casts."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Sinker weights also level-gated by mass — light shore weights at L1, deepest deep-sea weights at L85."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Bait depletes when a cast fails. Configurable in admin under `Basic → Fishing → Remove Bait on Fail` (% chance). Strike-on-empty no longer triggers the roll — only line snaps, fish escapes, and server-validated misses do."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Spook (zone fatigue) per-catch increment lowered 0.15 → 0.025, so a species takes ~34 catches to fully spook a cell instead of ~6. Tunable via `Basic → Fishing → Spook per Catch`."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Bait & gear access"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Every bait now has a level requirement matched to the lowest fish that wants it (minus 5 levels of \"buy ahead\" buffer). Beginner baits like bread/corn unlock at L1; nightcrawlers L23, leech/bacon L30, hugecutbait L50, yellowfin tuna chunks L75."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Tiered store layout: Del Perro & Vespucci serve T1 saltwater (L1-25), Pacific Deepwater & Paleto serve T2 saltwater (L26+). Same split for freshwater between Zancudo and Alamo Lake. Strict no-overlap so advanced shops feel like graduating, not just shopping further."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Bait digging filters by level too — a level-1 player digging soil no longer accidentally pulls up nightcrawlers they can't use."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Equipment store sorts unlocked items first; locked items go to the bottom in level order so the next thing to unlock is closest to view."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Tournaments"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Ten default tournaments seeded across daily/weekly schedules. Times spread across lunch / after-school / prime-evening, levels span beginner-friendly to endgame."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Mix of free entries, fixed-prize cups, and pot-mode events with entry fees. Mix of any-species and zone-locked."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "New eligibility chip on every tournament card. Green = eligible, amber = some species are above your level, red = locked (zone or all species too high). Hover the chip for a list of what's blocking you. Sign-up button auto-disables on red."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Tournament cards show proper species and zone labels (e.g. \"Atlantic Herring · Vinewood Lake\") instead of internal IDs."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Reward UI"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Rarity badge now reflects how rare the species itself is (based on abundance), not how big the individual you caught was. A 50g minnow no longer gets a \"Legendary\" badge."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Weight pill is now coloured by how heavy the catch is for its species: dim grey for runts, blue for big, purple for great, gold for trophy (top 5%). Trophy fish also get a soft glow."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Multiplayer"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Trap-in-hand prop now visible to other players during placement."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Server-side lock prevents trap-spam from placing two buoys for one item — was a race in the inventory bridge."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Buoys can now fully sink under boats while still being anchored to their X/Y position. Boat hulls used to push the buoy partially down before bouncing it back up; now they can submerge it cleanly."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Catch-fish props (the rod-caught fish reeled in, and held fish) are local-only this version. Cross-client sync was visibly desynced; the network broadcast is commented out and re-enabling it is one flag flip when the underlying sync is fixed."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Bug fixes"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Permit purchase dialog showed durations like \"9.00004 hours\" because the basic-permit branch was double-converting hours-to-seconds. Now displays correctly."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Mackerel-instead-of-herring problem at level 1 fixed. Fish more than 10 levels above the player are now excluded from the bite candidate pool entirely; species 1-10 levels above appear at reduced rate. Newbies catch the fish they're trying to catch."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Some T2 fish (Common Carp, Dungeness Crab, Longnose Gar, Lobster, King Crab, Turtle) had no T2-bait option, forcing T2 players to use T1 bait. Each now has at least one T2 bait that targets it. Lobster + King Crab no longer accept bread."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Removed `timeToBite` / `removeBaitOnFail` from admin where the field was unused; `removeBaitOnFail` is now actually wired into gameplay."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Admin / debug"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Eight debug commands (spawnTestFish, fishScale, spawnBuoy, etc.) are now gated behind `basic.debug` — they no longer respond on production servers unless debug mode is on."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Blip display field is now a labelled dropdown instead of a number input — no more guessing what \"display 4\" means."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Live nibble strip"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Empty/decoy nibbles no longer emit when there are no real fish candidates at the current depth/bait/level. Silence on the strip is now a reliable \"wrong spot or wrong bait\" signal. When candidates do exist, decoys mix in alongside real fish so the strip still feels alive."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Strip pacing now re-evaluates per-blip on the current hook depth — as your hook sinks past shallow species and into deeper fish territory, activity changes naturally."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "05/05/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": true,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "After 5 years, dirk_fishing has been completely rewritten from the ground up. Honestly, almost nothing from v1 survives — this is a brand new resource that happens to share the same name. Below is the full feature list for v2."
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "### Core Fishing"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Brand new aim → cast → fight loop. Aim your cast with a live on-screen reticle showing whether the spot is valid, land the throw with a timing minigame, then reel in catches with a Stardew Valley–style bar-catch fight."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Realistic rod, rope and hook — a physical rope trails from the rod tip to a hook in the water and swings naturally as you move."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "32 fish species across freshwater and saltwater, each with their own bite rate, fight difficulty, weight range and price."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Custom 3D model per species — every single fish has its own bespoke prop (streamed via dirk_fishProps), no reused models."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Rarity system — every catch ranked Common → Legendary based on its weight relative to the species' max."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Realistic fish sizing — caught fish appear in your hands and in the world at a size that matches their actual weight."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Cinematic catch camera frames every catch before it hits your inventory."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Gear & Progression"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Full rod loadout system — build rods with reels, lines, hooks, bait and sinker weights; every setup saves to the rod's item metadata."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "13 rods, 14 reels, 14 lines, 24 hook sizes, 12 sinker weights, 20+ baits — every item editable live in the configurator."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "RuneScape-style XP curve (1–99) with level-locked gear and bonuses."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fishing permits — global and zone-specific permits with expiring card art players can inspect in-hand. Cops with the right job/rank can revoke permits face-to-face."
+                },
+                {
+                  "t": "cont",
+                  "v": "### World & Exploration"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fishing zones — draw zones on the map and configure their bite times, fish density, abundance, weight modifiers and per-fish overrides."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Grid-based fish populations — every player sees the same fish pool in the same water cell, so a productive spot stays productive (and gets fished out)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish Finder tablet item — scans the grid for nearby fish populations and tells you what's biting where."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Interactive Guidebook"
+                },
+                {
+                  "t": "cont",
+                  "v": "A standalone in-game book item players can open at any time. Six tabs:"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Overview** — live dashboard: current XP and level progress, today's daily challenges, recent personal bests."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fish Collection** — every species in the game, ranked by rarity and unlocked by level. Per-fish: personal best weight, times caught, first-caught date, depth, water type, ideal bait, weight range, base price."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Equipment Library** — full reference for every rod, reel, line, hook, bait and sinker weight: stats, level required."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Map** — interactive Leaflet map of the city with all fishing zones drawn on, your live position, fish-finder readings and zone permit/level info."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Leaderboards** — global and personal top 3 per species, plus a global all-time leaderboard sortable by total caught, total weight, heaviest, unique species and XP."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Tournaments** — placeholder tab for the upcoming tournament system (WIP)."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Daily Challenges"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Random daily objectives that reset every 24h: catch X of a species, hit weight goals, dig N bait, etc."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Progress tracked live as you play; claim rewards from the guidebook Overview tab."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Templates and reward tables fully editable in the configurator."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Traps (Crab Pots)"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Place baited pots in deep enough water and come back later — fully passive trap system."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Surface buoys bob with the waves naturally so they look part of the sea."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Rope-pull minigame to haul the trap to the surface, with a cinematic camera while you inspect the haul."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Hover catches to identify them, then keep or release individually; swap bait without pulling up an empty trap."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Stale traps auto-expire on a configurable timer so abandoned pots don't litter the map forever."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Bait & Gutting"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Bait digging — dig for worms, maggots and more across 20+ ground material types; tools have limited uses and dig spots regenerate on a timer."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish gutting — clean caught fish into meat or fillets; yield scales with player skill."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Stores & Markets"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Equipment shops, fish markets and a dedicated bait market — all via dirk_stores integration."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Stores and individual stock items can be **level-locked** so high-tier gear only unlocks once a player has earned the level."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fish market prices shift relative to a global rolling base price; each market applies its own multiplier so saltwater and freshwater markets pay differently for the same fish, and the UI shows trend arrows (-15%, +8%, etc.)."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Markets can stock different fish lists, so a freshwater dock won't buy your tuna."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Configurable models, blip, opening hours (including hours that wrap midnight), payment methods and full stock per store."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Convenience"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Boat anchoring via keybind or useable item so you don't drift off your hotspot."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Clip commands (`/record`, `/clip`, `/saveclip`, `/editor`) to capture your best catches via Rockstar Editor."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Contextual animations — walking, idling and reeling animations swap automatically while you're fishing."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Live Script Configurator"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Open in-game with `/dirk_config` — every fish, zone, permit, shop, tool, dig spot and player level can be edited live."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Full undo / redo history."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Audit log of who changed what and when."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Player tab — view, search and adjust XP/levels for any player."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "All of the above persisted to a single `dirk_scriptConfig` table; no manual SQL or Lua config edits required, no resource restart."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Framework & Inventory Support"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Built on **dirk_lib** — fully framework-agnostic."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Out-of-the-box bridges for **ox_inventory**, **qb-inventory** and **ESX**."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Pre-generated item definitions for ox / qb / esx in `INSTALLATION/itemsToAdd/`."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "111 item images included in `INSTALLATION/itemImages/`."
+                },
+                {
+                  "t": "cont",
+                  "v": "### Easter Eggs"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Be Jonah. 🐋"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.5.0",
+      "date": "27/08/2025",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": false,
+      "sections": [
+        {
+          "title": null,
+          "items": [
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Well guys at nearly 4.5 years old dirk_fishing v1 is coming to an end. This will be the final update for you guys before a bigger better version comes along :eyes:. "
+                }
+              ]
+            },
+            {
+              "loose": true,
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "I thought this one needed a good refresh before it's left to mature like a fine wine!"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Updated to dirk_lib instead of dirk-core so should have much better compatibility."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Removed old ugly store system and converted to be able to use my dirk_stores system for the fishing buy/sell stores."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Converted controls to dirk_lib style controls."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Tidied up all the locales into more modern locales/*.json "
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Secured the server side because 4.5 years ago I was a bit of an idiot. "
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Added any missing or wrongly named icons for inventory. "
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Added different rod models. "
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Made UI pull from inventory script you use for easier updating of images etc. "
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Fixed sensitivity issues with smaller depths of water"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "version": "1.0.0 - 21/02/2021",
+      "date": null,
+      "headingStyle": "raw",
+      "separatorBefore": false,
+      "sections": []
+    }
+  ]
+}

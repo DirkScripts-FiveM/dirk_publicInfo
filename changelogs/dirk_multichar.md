@@ -10,7 +10,6 @@
 - Backstory System fully overhauled — new UI for creating / managing backstories, scenes with their own walk-set positions, items use SelectItem, locked / discord-gated access in its own tab.
 - Restyle pass on every consumer NUI to use `dirk-cfx-react` for consistency with the rest of the dirk_* lineup.
 - Full locale sweep — every label, tooltip, placeholder, and confirm message reads from `locales/en.json`. `%s` placeholders used for dynamic values instead of hand-rolled `{name}` substitutions.
-
 ### scriptConfig migration
 - `settings/` folder removed. Every value that was a Lua table — `basic`, `lifestyles`, `spawnLocations`, `vipRoles`, `characterPositions`, `cameraViews`, `defaultItems`, `characterStates` — now lives in `schema.json` and persists through dirk_lib's scriptConfig.
 - Every Lua consumer reads via `lib.scriptConfig.get('section')` + reacts to admin saves through `lib.scriptConfig.on('section', ...)`. Edits in the configurator apply live, no resource restart required.
@@ -20,7 +19,6 @@
 - `lifestyles/` folder removed — all the per-lifestyle `init.lua` template stubs were entirely commented out and the new scriptConfig flow obsoletes them. Custom Lua-side lifestyles can still be registered from other resources via `exports.dirk_multichar:registerLifestyle(id, data)`.
 - React-side `getStateInfo()` now derives from `useScriptConfig.characterStates` instead of a parallel hardcoded Zustand store, so the React copy can no longer drift from the Lua copy.
 - `web/src/stores/basic.ts` removed too — every consumer now reads from `useScriptConfig` directly so admin saves propagate everywhere live.
-
 ### Bug fixes
 - Fixed missing `VIPSlot` locale key — locked VIP slots in the character list rendered a blank label instead of "VIP Slot".
 - Fixed character customisation handoff to `illenium-appearance` (QBX) — appearance UI now opens reliably on character creation by routing through `qb-clothes:client:CreateFirstCharacter` and matching illenium's exact default camera offsets so the cut between our hold-cam and illenium's cam is invisible.
@@ -31,7 +29,6 @@
 - Fixed module-load deadlock where `lib.scriptConfig.get('basic')` at client file top awaited a server callback before the rest of `nui.lua` could execute, leaving `openMultichar` undefined. Client files now use `.on` for module-scope snapshots and only call `.get` inside function bodies.
 - Walk-and-set position picker now properly hides every body child (including Mantine portal modals) while picking, via a `data-dirk-picking` body attribute + injected CSS rule.
 - Multichar slot count + admin-editable basics update live in the UI as soon as the admin saves them — no more "saved 6 slots, still shows 5 until reopen".
-
 ### dirk_lib + dirk-cfx-react improvements
 - `lib.scriptConfig.setBackHandler(fn)` added — one-shot hook for consumers that open the configurator from their own UI and want Back / Esc / close to return to that UI instead of dirk_lib's chooser list. Drained on every exit path so focus stays claimed by the consumer.
 - Client-side `lib.scriptConfig.get(path)` now supports dot-paths like the server side already did (e.g. `lib.scriptConfig.get('basic.maxSlots')`).
@@ -45,7 +42,6 @@
   - Revamped UI with cleaner look.
   - Added easier ability to create/manage lifestyles from settings/lifestyles.lua
 - Added support for vms housing to display housing
-
 
 # Update 1.1.1 11/07/2025
 - Fixed issue with qbx_core not picking up license2 natively, resulting in no characters being shown.

@@ -1,10 +1,9 @@
 # UNRELEASED
-
 Everything moves in-game: the entire `settings/` folder is **gone**, replaced by a live **dirk_lib config panel** — edit every setting from inside the game with undo/redo, history and an audit log, no file editing or restarts. Behaviour functions (minigames, part remove/apply logic, store `canOpen`, tool actions, text-UI) now live in an editable `overrides/` folder; static engine data (vehicle colours, wheel indexes) moved to `data/`.
-
 > **Upgrading a customised server?** Config now comes from the panel, not `settings/*.lua`. Stock installs match the old defaults exactly, but if you'd hand-edited `settings/`, re-apply those tweaks once in `/dirk_config` (they won't carry over automatically).
 
 ## New features
+
 - **In-game config panel.** Basic settings, blueprints, scrap search, stores, tools, vehicle parts and restrictions are all editable live in-game, replacing `settings/*.lua`.
 - **Visual map zone editor.** Restriction zones are drawn straight onto the map — draw a polygon, and see / select / delete existing zones — instead of typing coordinates by hand.
 - **Job / gang creation restrictions.** Limit who can build cars to specific jobs or gangs at or above a chosen grade, via a proper group picker.
@@ -17,10 +16,10 @@ Everything moves in-game: the entire `settings/` folder is **gone**, replaced by
 - **Part behaviour picker + separate item name.** A part's behaviour (remove/apply logic) is now a dropdown of the built-in behaviours (auto-populated from `overrides/vehicleParts.lua` — add one there and it appears), and the inventory item name is a separate field, so you can name the part item anything without breaking its behaviour.
 
 ## Fixes
+
 - **Empty restriction now means "anyone".** An empty job or zone restriction correctly allows everyone/everywhere again — a latent case where an empty list could block all players is fixed.
 - **Part "missing" prompts name the right part.** The can't-start message for a missing part used to always read "Missing wheel…"; it now names the actual part.
 - **Completed cars now save to any garage system.** Finishing a build used to hard-code a `garage` column in the vehicle insert, which errored `Unknown column 'garage'` on setups whose table doesn't have one (e.g. **ESX + jg-advancedgarages**). Vehicles are now stored through dirk_lib's garage bridge (`lib.garage.addVehicle`), which adapts to your framework + garage automatically. Requires **dirk_lib 1.2.69+**.
-
 ---
 
 # UPDATE 1.1.4
@@ -65,7 +64,7 @@ Everything moves in-game: the entire `settings/` folder is **gone**, replaced by
 :hammer: Fixed issue with car remaining on stands after server restart upon completion || DONE
 :hammer: Fuelling Issues fixed as well as adding a bunch of fuel systems natively supported via dirk-core
 
-# UPDATE 1.0.5 
+# UPDATE 1.0.5
 :hammer: Fixed silly issue with plate not matching the DB, which was causing other key issues etc. 
 :new: Config option for default garage.
 :new: Option to have car despawn on finish instead of being ready to drive away.

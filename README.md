@@ -66,13 +66,53 @@ is a panel people stop reading.
 
 ### changelogs/
 
-A copy of each resource's own `CHANGELOG.md`. The copy in the resource stays
-the source of truth; this one is what a server reads so it can see entries
-newer than the build it is running.
+**This is where a dirk changelog is written.** Not the `CHANGELOG.md` in a
+resource — that file is now GENERATED, by the release workflow, from the JSON
+here. Never edit one by hand.
 
-Copied at release rather than maintained by hand — two copies kept in sync by
-somebody remembering is two copies that drift, and the one that goes stale is
-the customer-facing one.
+```
+changelogs/<resource>.json          released entries — the source of truth
+changelogs/<resource>.md            rendered from the JSON, what the panel fetches
+changelogs/pending/<resource>.json  drafts, built up as work happens
+render.mjs                          the one renderer, used by CI and the MCP
+```
+
+Write entries with the **`dirk-changelog` MCP**, never by editing these files:
+
+    changelog_add      add bullets to a draft, as the work lands
+    changelog_promote  move a draft into the released file, on the day it ships
+    changelog_publish  commit and push
+
+#### Why it works this way
+
+The same changelog used to be kept by hand in three places — the resource, this
+repo, and dirk_docs. On 07/09/2026 all three disagreed: fishing's whole
+levelling feature was in one and neither of the others. Three copies kept in
+step by somebody remembering is three copies that drift, and the stale one is
+always the customer-facing one.
+
+So there is one copy, as data, and everything else renders from it: this repo's
+`.md`, the `CHANGELOG.md` inside each release zip, the Discord embed, and the
+docs.
+
+#### Drafts are a separate file, not a flag
+
+`pending/` holds versions that are written but not shipped. Nothing
+customer-facing reads that directory, so a draft cannot reach a customer
+through a filter somebody forgot to apply — there is no filter to forget.
+
+Several chats add to the same draft while they work; `changelog_add` is
+additive per section and skips a bullet whose opening text already exists.
+
+Note this repo is public, so a draft is readable by anyone who goes looking for
+it. It is not surfaced anywhere, but it is not secret either.
+
+#### The release gate
+
+Each resource's workflow fetches `render.mjs` and its own JSON, and renders
+`CHANGELOG.md` into the zip. If there is **no entry for the version being
+built, the release stops.** Shipping the previous version's notes is the kind
+of mistake nobody notices until a customer does.
 
 ## Adding a script
 
