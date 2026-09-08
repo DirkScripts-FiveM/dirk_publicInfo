@@ -1,3 +1,44 @@
+# UPDATE 2.1.0 | 08/09/2026
+
+## Before you update
+
+- **This needs dirk_lib 1.3.0 or newer.** Update dirk_lib first — fishing's settings now live in its panel.
+
+## The move
+
+- **Fishing's settings now live in Script Studio**, the one panel every dirk script shares. /dirk_fishing still works and opens straight to fishing. Everything from the old panel came across — the fish and equipment editors, the zones map, the Players page, theme, all of it — this is a move, not a rebuild from scratch.
+
+## New
+
+- **Search across every setting.** Type what you are looking for instead of knowing which tab it lives in.
+- **Any saved change can be reverted.** The change history now puts values back, staged for you to review like any other edit.
+- **Read fishing's logs in-game.** Every event fishing reports is kept on your server and readable under Logs — filter by event, player or time, and open a line for the full payload.
+- **A view access level.** Staff can be given read-only access — settings and logs, no saving, and server-only values like webhook URLs are never sent to them.
+- **Per-fish zone modifiers get their own tab** with sliders, instead of a bare number input squeezed into the zone editor.
+- **Pick your levelling style.** Under **Progression**, the curve is now a choice rather than a fixed shape:
+  - **Long haul** — early levels fly past, the last few are a project. This is what fishing has always used, and it stays the default.
+  - **Steady** — every level costs the same.
+  - **Classic RPG** — a real climb, without the cliff at the top.
+  - **Reachable** — steep to begin with, easing near the ceiling, for a ladder players are meant to finish.
+  **Nobody loses XP when you switch.** A level is worked out from XP every time it is asked for and never stored, so changing shape simply re-reads everyone against the new ladder. The same is true of the max level and the multiplier — retune whenever you like.
+- **The Progression settings draw the curve you are describing.** Four numbers cannot be read; nobody looks at "modifier 1.4" and pictures how long level 10 takes. The block now shows the climb as you drag it, what a few real levels cost, the total to max, and how that compares with the default pace.
+
+## Changes
+
+- **Logging is simpler.** Fishing now just reports its events; where they go — kept on your server, forwarded to a Discord channel or webhook, filtered by event — is set once in Script Studio under **Logs** and applies to every dirk script. Your existing webhook is carried over the first time it loads, and the Logging section links straight through. The per-event toggles are now redirect filters, in one place, rather than a second set only fishing had.
+- **The Access tab is gone.** Who can edit fishing's settings is managed on the shared **Admins** page, and any grants you had are folded in automatically.
+- **Fish difficulty bands are worked out from your own fish list.** They were fixed level ranges (1-15, 16-40, 41+), which only made sense at the default max level — a server capped at 30 could never have an Advanced fish, and one running to 300 had almost every fish there. Your fish are now sorted by Info Unlock Level and split into three even groups, so no band is ever empty. On a default setup this moves five fish; daily challenges drawing from a band will pick slightly differently.
+- **Daily challenge options say what they mean** — "Catch N of one species" and "Beginner / Intermediate / Advanced" rather than catch_species and tier2.
+
+## Fixes
+
+- **A rod could not be stowed when nothing was biting.** Abandoning was blocked any time a line was in the water, so with no bite there was no way out — the rod was stuck until you reconnected. It is now blocked only during an actual fish fight, and abandoning cleans up any leftover bite state. (Reported by adragonhunter.)
+- **Players could be left running on the wrong settings for a whole session** — different shop hours, zones and language than the panel showed. The cause and fix are in dirk_lib 1.3.0; fishing ships a test suite entry so it can never come back quietly.
+- **Fishing reported two different levels for the same player.** The level used for gates and shown on every bar came from one calculation; the level handed to other scripts through `exports.dirk_fishing:getLevel` came from another, and they did not agree — at 8,134 XP one said level 25 and the other said 99. Anything asking fishing how good a player is has been getting the wrong answer. There is one calculation now, shared with the rest of dirk_lib, and the test suite compares the two sources against each other so they cannot drift apart again.
+- **Digging bait and claiming a daily challenge did not update your level until you relogged.** Both awarded the XP correctly but never told your own game about it, so the guidebook, the catch window and the loadout gates all kept showing the level you had before. Every award now goes through one path that always updates you.
+- **Strict catch level moved to the top of Progression**, above the curve settings — it decides whether the rest of that section applies to a fish at all.
+---
+
 # UPDATE 2.0.66 | 07/08/2026
 
 ## New
