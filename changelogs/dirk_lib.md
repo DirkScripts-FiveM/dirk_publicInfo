@@ -1,3 +1,18 @@
+# UPDATE 1.3.1 | 09/09/2026
+
+## New
+
+- **Script Studio speaks twelve languages.** The panel was almost entirely English at 1.3.0 — the settings had translations but the panel around them did not, so picking a language changed half of what you were looking at. Every string in it is now translated into German, Spanish, French, Italian, Lithuanian, Dutch, Norwegian, Polish, Portuguese, Simplified Chinese and Traditional Chinese. Set it once in **Basic → Language** and it applies to every dirk script.
+- **Dutch, Polish and Simplified Chinese are new.** Dutch and Simplified Chinese were already offered in the language dropdown with no translation file behind them, which meant picking either one silently left you in English. Both are now real, and Polish joins them.
+- **150 panel strings that were never translatable now are.** They were written straight into the interface rather than looked up, so no language could ever have reached them — they stayed English no matter what you picked.
+
+## Fixes
+
+- **/<resource_name> could open the old panel instead of Script Studio.** The command was being registered twice — once by dirk_lib to open the hub, once by the shared config module to open that script's own panel — so which interface you got depended on which registration happened to win. It always opens Script Studio now, on that script.
+- **The input dialog's Cancel and Submit buttons were never translated.** They read the key name rather than a translation, which looked correct in English and hid it in every other language.
+- **axios updated to 1.20.0**, clearing a set of published advisories in the version that shipped with 1.3.0 — among them proxy credentials leaking across redirects and a denial of service via cookie names.
+---
+
 # UPDATE 1.3.0 | 08/09/2026
 
 ## New — Script Studio

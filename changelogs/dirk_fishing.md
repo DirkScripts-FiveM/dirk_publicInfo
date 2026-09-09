@@ -1,3 +1,16 @@
+# UPDATE 2.1.1 | 09/09/2026
+
+## New
+
+- **Fishing is fully translated into twelve languages.** Every fish, every piece of equipment, every setting and every message — German, Spanish, French, Italian, Lithuanian, Dutch, Norwegian, Polish, Portuguese, Simplified Chinese and Traditional Chinese. Several were partial before and a few were only offered, never written. Set the language once in dirk_lib and it applies here too.
+  Item names and descriptions still come from your own inventory item rather than from fishing, so if you want those in your language, translate them in your items list — fishing reads whatever is there.
+- **Dutch, Polish and Simplified Chinese are new.**
+
+## Fixes
+
+- **axios updated to 1.20.0**, clearing a set of published advisories in the version that shipped with 2.1.0.
+---
+
 # UPDATE 2.1.0 | 08/09/2026
 
 ## Before you update
