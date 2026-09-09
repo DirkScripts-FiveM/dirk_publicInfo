@@ -164,7 +164,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "**A self-check command.** Type dirktest in your server console and the script tests itself against your own inventory and framework — so a bad combination shows up before your players find it, not after. Name a script to run just that one — `dirktest dirk_fishing` — and any script shipping tests gets a **Tests** tab in the panel automatically. Console only, because a suite is allowed real side effects."
+                  "v": "**Testing System.** Run tests against a script to confirm it is working properly with your server and its dependencies — your inventory, your framework, its own logic. Type `dirktest` in your server console for everything, or name one script — `dirktest dirk_fishing` — for just that. Any script shipping tests also gets a **Tests** tab in the panel, so a bad combination shows up before your players find it. Console only, because a suite is allowed real side effects."
                 }
               ]
             }

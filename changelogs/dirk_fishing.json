@@ -212,7 +212,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "**A rod could not be stowed when nothing was biting.** Abandoning was blocked any time a line was in the water, so with no bite there was no way out — the rod was stuck until you reconnected. It is now blocked only during an actual fish fight, and abandoning cleans up any leftover bite state. (Reported by adragonhunter.)"
+                  "v": "**Ending a cast no longer waits on a bite.** The guard that stops you putting the rod away mid-fight was catching any line in the water, not just an active fight — so on a quiet spot there was nothing to end the cast with. It now holds you only while a fish is actually on, and stowing clears any bite state left behind. (Reported by adragonhunter.)"
                 }
               ]
             },
