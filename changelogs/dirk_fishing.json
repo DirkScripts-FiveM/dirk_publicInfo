@@ -266,7 +266,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "**Built-in test suite.** A console-only `dirktest` command (powered by dirk_lib's new `lib.test`) validates the inventory bridge — add/remove, metadata, can-carry and usable items — plus core fishing logic (XP/level, earnings) against your live setup. Handy for confirming a new inventory is compatible before going live. Run it from the server console; see the docs. (Requires **dirk_lib 1.2.79+**.)"
+                  "v": "**Testing System.** Run tests against fishing to confirm it is working properly with your server and its dependencies — your inventory bridge (add/remove, metadata, can-carry, usable items) and fishing's own logic (XP, levels, earnings), all against your live setup. Type `dirktest` in your server console. Worth running before you go live with a new inventory. (Requires **dirk_lib 1.2.79+**.)"
                 }
               ]
             }
