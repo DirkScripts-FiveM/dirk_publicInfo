@@ -1,3 +1,10 @@
+# UPDATE 2.1.2 | 10/09/2026
+
+## New
+
+- **Japanese.** Fishing is fully translated into 日本語 — the in-game UI and the entire settings panel, all 1,337 strings. Set the language once in Script Studio → dirk_lib → Basic and it applies here too. Needs dirk_lib 1.3.2.
+---
+
 # UPDATE 2.1.1 | 09/09/2026
 
 ## New
@@ -45,7 +52,7 @@
 
 ## Fixes
 
-- **A rod could not be stowed when nothing was biting.** Abandoning was blocked any time a line was in the water, so with no bite there was no way out — the rod was stuck until you reconnected. It is now blocked only during an actual fish fight, and abandoning cleans up any leftover bite state. (Reported by adragonhunter.)
+- **Ending a cast no longer waits on a bite.** The guard that stops you putting the rod away mid-fight was catching any line in the water, not just an active fight — so on a quiet spot there was nothing to end the cast with. It now holds you only while a fish is actually on, and stowing clears any bite state left behind. (Reported by adragonhunter.)
 - **Players could be left running on the wrong settings for a whole session** — different shop hours, zones and language than the panel showed. The cause and fix are in dirk_lib 1.3.0; fishing ships a test suite entry so it can never come back quietly.
 - **Fishing reported two different levels for the same player.** The level used for gates and shown on every bar came from one calculation; the level handed to other scripts through `exports.dirk_fishing:getLevel` came from another, and they did not agree — at 8,134 XP one said level 25 and the other said 99. Anything asking fishing how good a player is has been getting the wrong answer. There is one calculation now, shared with the rest of dirk_lib, and the test suite compares the two sources against each other so they cannot drift apart again.
 - **Digging bait and claiming a daily challenge did not update your level until you relogged.** Both awarded the XP correctly but never told your own game about it, so the guidebook, the catch window and the loadout gates all kept showing the level you had before. Every award now goes through one path that always updates you.
@@ -56,7 +63,7 @@
 
 ## New
 
-- **Built-in test suite.** A console-only `dirktest` command (powered by dirk_lib's new `lib.test`) validates the inventory bridge — add/remove, metadata, can-carry and usable items — plus core fishing logic (XP/level, earnings) against your live setup. Handy for confirming a new inventory is compatible before going live. Run it from the server console; see the docs. (Requires **dirk_lib 1.2.79+**.)
+- **Testing System.** Run tests against fishing to confirm it is working properly with your server and its dependencies — your inventory bridge (add/remove, metadata, can-carry, usable items) and fishing's own logic (XP, levels, earnings), all against your live setup. Type `dirktest` in your server console. Worth running before you go live with a new inventory. (Requires **dirk_lib 1.2.79+**.)
 
 ## Fixes
 

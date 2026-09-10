@@ -1,3 +1,10 @@
+# UPDATE 1.3.2 | 10/09/2026
+
+## New
+
+- **Japanese.** 日本語 is now one of the languages every dirk script ships in, bringing the standard set to thirteen. Pick it in Script Studio → dirk_lib → Basic → Language and the whole panel — every script's settings, every label, every description — is Japanese.
+---
+
 # UPDATE 1.3.1 | 09/09/2026
 
 ## New
@@ -27,7 +34,7 @@
 - **Better controls throughout** — durations, hour-of-day pickers, two-point range sliders, either/or switches that name both sides, and open maps of values. Areas are drawn on a real map, and a coordinate is set by walking to the spot and pressing a key rather than typed.
 - **The panel opens fast.** Opening used to re-download every script's schema and config; now your game keeps the schemas cached and already holds the values, so only a small amount of admin-only data travels - and everything loads at once instead of one script at a time.
 - **A Players page, the same in every script that has one.** Searching your character list, putting whoever is online at the top, and paging through the rest is now dirk_lib's job rather than each script writing its own — so it behaves identically wherever it appears, and a character's own name and the account behind it are told apart properly instead of showing the same handle twice.
-- **A self-check command.** Type dirktest in your server console and the script tests itself against your own inventory and framework — so a bad combination shows up before your players find it, not after. Name a script to run just that one — `dirktest dirk_fishing` — and any script shipping tests gets a **Tests** tab in the panel automatically. Console only, because a suite is allowed real side effects.
+- **Testing System.** Run tests against a script to confirm it is working properly with your server and its dependencies — your inventory, your framework, its own logic. Type `dirktest` in your server console for everything, or name one script — `dirktest dirk_fishing` — for just that. Any script shipping tests also gets a **Tests** tab in the panel, so a bad combination shows up before your players find it. Console only, because a suite is allowed real side effects.
 
 ## New — levels and XP
 
