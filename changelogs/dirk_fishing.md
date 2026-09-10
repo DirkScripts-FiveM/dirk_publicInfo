@@ -2,7 +2,7 @@
 
 ## Fixes
 
-- **The fish, gear and player screens ignored your language.** The species search, the All/Catchable/Trap filters, Add fish, the rarity and water chips, and every label on the Players screen were looked up under keys that did not exist, so all of them fell back to English on a translated server — 66 strings in total, now filled in for all thirteen languages. Water types were not looked up at all and now are.
+- **The fish, gear and player screens ignored your language.** The species search, the All/Catchable/Trap filters, Add fish, the rarity and water chips, and every label on the Players screen were looked up under keys that did not exist, so all of them fell back to English on a translated server — 71 strings in total, now filled in for all thirteen languages. Water types were not looked up at all and now are.
 - **Every field inside a list row was English.** Open a fish, a zone, a store or a piece of gear and the form was in English no matter what language you picked — including Base Price Per Unit, the field you change to make fishing pay more. The translations existed; they were filed under a key the panel never asked for. 179 fields per language, and the tabs across the top of the row editor with them.
 ---
 
