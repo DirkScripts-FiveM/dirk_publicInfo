@@ -1,3 +1,10 @@
+# UPDATE 2.1.3 | 10/09/2026
+
+## Fixes
+
+- **The Controls section and the Players screen stayed English on a translated server.** Neither had a locale entry, so both fell back to the schema's English while everything around them translated. Both are now translated in all thirteen languages.
+---
+
 # UPDATE 2.1.2 | 10/09/2026
 
 ## New

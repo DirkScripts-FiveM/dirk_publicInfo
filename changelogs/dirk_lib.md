@@ -1,3 +1,10 @@
+# UPDATE 1.3.3 | 10/09/2026
+
+## Fixes
+
+- **Bits of Script Studio stayed English on a translated server.** The search box, the Save changes button, a list's filter box and the day/hour/minute/second unit pickers were written into the panel in English rather than looked up, so they sat there in English no matter what language you picked — next to a Discard button that translated correctly. All of them now come from the locale files, in all thirteen languages.
+---
+
 # UPDATE 1.3.2 | 10/09/2026
 
 ## New
