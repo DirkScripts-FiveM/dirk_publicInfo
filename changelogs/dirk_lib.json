@@ -4,6 +4,28 @@
   "trailingNewline": true,
   "entries": [
     {
+      "version": "1.3.4",
+      "date": "10/09/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The row editor never translated its own tabs or its \"from inventory\" hint.** A fully translated fish still opened onto GENERAL / STATS / ECOLOGY / GUTTING. Tabs now resolve from the owning script under `settings.<path>.tabs.<id>`, and a tab named after a nested table falls back to that field's own label, so a script does not translate the same word twice."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "separatorBefore": true
+    },
+    {
       "version": "1.3.3",
       "date": "10/09/2026",
       "headingStyle": "pipe",

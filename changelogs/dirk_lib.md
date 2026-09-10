@@ -1,3 +1,10 @@
+# UPDATE 1.3.4 | 10/09/2026
+
+## Fixes
+
+- **The row editor never translated its own tabs or its "from inventory" hint.** A fully translated fish still opened onto GENERAL / STATS / ECOLOGY / GUTTING. Tabs now resolve from the owning script under `settings.<path>.tabs.<id>`, and a tab named after a nested table falls back to that field's own label, so a script does not translate the same word twice.
+---
+
 # UPDATE 1.3.3 | 10/09/2026
 
 ## Fixes
