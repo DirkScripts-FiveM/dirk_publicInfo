@@ -4,6 +4,28 @@
   "trailingNewline": true,
   "entries": [
     {
+      "version": "1.3.5",
+      "date": "10/09/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The Admins page explained itself in English on a translated server.** The headings translated, but the lines under them did not — what the master group is, what you are looking at, the Can edit / View only badges, the scope pill and the \"added by\" line were all written into the page rather than looked up. Thirteen strings, now translated in all thirteen languages."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "separatorBefore": true
+    },
+    {
       "version": "1.3.4",
       "date": "10/09/2026",
       "headingStyle": "pipe",

@@ -1,3 +1,10 @@
+# UPDATE 1.3.5 | 10/09/2026
+
+## Fixes
+
+- **The Admins page explained itself in English on a translated server.** The headings translated, but the lines under them did not — what the master group is, what you are looking at, the Can edit / View only badges, the scope pill and the "added by" line were all written into the page rather than looked up. Thirteen strings, now translated in all thirteen languages.
+---
+
 # UPDATE 1.3.4 | 10/09/2026
 
 ## Fixes
