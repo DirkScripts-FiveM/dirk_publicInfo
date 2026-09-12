@@ -4,6 +4,75 @@
   "trailingNewline": false,
   "entries": [
     {
+      "version": "2.1.5",
+      "date": "12/09/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "sections": [
+        {
+          "title": "Requires dirk_lib 1.3.6",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Update dirk_lib first. Weight and distance units now come from dirk_lib's shared settings, and this build reads them from there."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Changes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Units moved to dirk_lib.** The weight and distance unit settings are no longer in fishing's own config - they live in dirk_lib > Basic and apply to every dirk script at once. Your existing choice is carried across automatically the first time dirk_lib 1.3.6 starts; nothing to set again."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Your level on screen could be minutes out of date.** XP moved onto dirk_lib's shared levelling system, but the fishing side was still listening for a level event nothing sends any more, so the number the player saw only corrected itself on reconnect. Level and progress now read straight from the live skill."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Shared settings were being hidden from fishing's own screens.** Fishing registered its own copy of the shared-settings request, which shadowed dirk_lib's and left out currency and units - so a server set to EUR still showed $ in the book. The copy is gone; fishing now gets the same shared settings as every other script."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Tests",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "Three new suites for `dirktest dirk_fishing`: **units** (the formatter reads dirk_lib, not fishing's old config), **levelsync** (a level change actually reaches the screen), and **arraydelete** (removing the last row of a list, and clearing a list entirely, reach the database and survive a restart)."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "separatorBefore": true
+    },
+    {
       "version": "2.1.4",
       "date": "10/09/2026",
       "headingStyle": "pipe",
