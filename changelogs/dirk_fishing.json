@@ -4,6 +4,28 @@
   "trailingNewline": false,
   "entries": [
     {
+      "version": "2.1.6",
+      "date": "15/09/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The self-test suite is now actually in the download.** `dirktest dirk_fishing` answered \"ships no tests\" on every customer server because the release never included the `tests` folder. It does now - run it from the server console while logged in on a character."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "separatorBefore": true
+    },
+    {
       "version": "2.1.5",
       "date": "12/09/2026",
       "headingStyle": "pipe",

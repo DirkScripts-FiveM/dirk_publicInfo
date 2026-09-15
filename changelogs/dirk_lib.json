@@ -4,6 +4,81 @@
   "trailingNewline": true,
   "entries": [
     {
+      "version": "1.3.7",
+      "date": "15/09/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Anti-cheat warning.** If a known anti-cheat is running, the server console says so at start and names what to whitelist: every event beginning with `__dirk_cb_`. Anti-cheats that filter events were silently dropping the settings request, which left players on default settings while the admin saw everything correctly. Full guide: docs.dirkscripts.com/resources/dirk-lib/anticheats"
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**A self-test for the same thing.** Shortly after a character loads, the client sends one test event and waits for the reply. If none comes in ten seconds, F8 says exactly that, names the anti-cheat if one was found, and links the fix. Catches the symptom whatever the anti-cheat is called."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The screen stayed blurred after using a map picker.** Picking a location or object from the panel fades the blur back in when it hands control back, and the panel never faded it out on close - so the whole game stayed blurred until a relog. It now clears on close."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Less work on every ESX player-data event.** The ESX cache rebuilt itself on every `esx:setPlayerData` event, whatever key changed, with an export call into es_extended each time. It now only reacts to the keys it actually caches."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The framework object is fetched once.** Every `lib.FW.x` access used to call the framework's export afresh; it is now resolved once and kept."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Progress-bar props no longer doubled on servers running ox_lib.** Our progress bar was setting ox_lib's own `lib:progressProps` state-bag key, so both libraries spawned the prop. The key is now `dirk_lib:progressProps`."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**`dirk_lib:getOnlinePlayers` was registered twice** with different permission checks; the second silently replaced the first. Registered once now."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "separatorBefore": true
+    },
+    {
       "version": "1.3.6",
       "date": "12/09/2026",
       "headingStyle": "pipe",
