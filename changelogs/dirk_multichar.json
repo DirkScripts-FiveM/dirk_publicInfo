@@ -6,18 +6,18 @@
     {
       "version": "1.5.0",
       "date": "12/05/2026",
-      "headingStyle": "space",
-      "word": "Update",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
       "separatorBefore": false,
       "sections": [
         {
-          "title": null,
+          "title": "New",
           "items": [
             {
               "parts": [
                 {
                   "t": "text",
-                  "v": "Full Live Configurator overhaul. `/dirk_multichar` (or the new cog button on the character-list title) opens a 6-tab admin panel: Basic, Scene, Backstories, Spawn Locations, States, VIP Roles."
+                  "v": "**New in-game admin panel.** Open it with /dirk_multichar or the new cog on the character list to reach the Basic, Scene, Backstories, Spawn Locations, States and VIP Roles tabs."
                 }
               ]
             },
@@ -25,7 +25,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Configurator can now be opened from inside the Multichar UI itself (gated by `dirk_lib`'s scriptConfig edit permission). Back / Esc / close button all drop you straight back into the character list instead of bouncing through the script chooser."
+                  "v": "**Backstory system rebuilt.** Create and manage backstories in-game across General, Access, Items and Scenes tabs, with optional locked or Discord-role-only access."
                 }
               ]
             },
@@ -33,7 +33,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "New `cameraViews`, `defaultItems`, and `characterStates` fields now live in scriptConfig — every value the resource cares about is admin-editable in-game."
+                  "v": "**Scene tab.** Drag to reorder character positions, set their animations, and place positions or the customisation spot by walking there in-game (E to confirm, Backspace to cancel)."
                 }
               ]
             },
@@ -41,7 +41,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Backstory editor: tabbed modal (General / Access / Items / Scenes) with fixed height so switching tabs doesn't shift the panel. Items use a compact `SelectItem` list with inline expand. Discord-role access is gated behind the Locked toggle."
+                  "v": "**Spawn Locations tab.** Add spawns with an icon picker and in-game group and rank pickers, with no IDs to type by hand."
                 }
               ]
             },
@@ -49,7 +49,20 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Scene tab: drag-reorder character display positions, modal editor with `Scenario`/`Dict`/`Anim`/`Flag` rows, walk-and-set position picker (E confirms, ⌫ cancels), and the customisation-position consolidated here. Weather and time are intentionally left untouched — the character scene simply shows whatever your server's own weather/time sync is running."
+                  "v": "**States tab.** Edit character states (icon, colour, message, or switch one off) and search online players to apply a state from the same tab."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Changes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**All settings now live in the panel.** The old Lua settings files are gone, and camera views, default items and character states can now be edited there too."
                 }
               ]
             },
@@ -57,7 +70,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Spawn Locations: modal editor with FontAwesome icon picker, in-game group/rank pickers backed by `lib.framework`, randomised internal IDs (no more hand-typed `spawn_1`)."
+                  "v": "**Changes apply live.** Saving in the panel takes effect straight away with no restart, including the slot count on the character screen."
                 }
               ]
             },
@@ -65,7 +78,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "States tab: edit visual character states (icon + colour + message + Disabled toggle) and an Online Players sub-panel that lets admins search any online character and apply a state from the same tab."
+                  "v": "**Toggles moved to their tabs.** The Spawn Selector toggle now lives in Spawn Locations, and VIP Roles has a Use ESX Character Slots Table toggle."
                 }
               ]
             },
@@ -73,7 +86,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "VIP Roles tab gets the `Use ESX Character Slots Table` toggle. Spawn Selector toggle moved into the Spawn Locations tab."
+                  "v": "**Weather and time follow your server.** The character scene shows whatever your own weather and time sync is running."
                 }
               ]
             },
@@ -81,7 +94,20 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Backstory System fully overhauled — new UI for creating / managing backstories, scenes with their own walk-set positions, items use SelectItem, locked / discord-gated access in its own tab."
+                  "v": "**Refreshed and fully translatable.** Every screen is restyled to match our other scripts, and every label, tooltip and message can now be translated."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Locked VIP slots show \"VIP Slot\".** They previously showed a blank label on the character list."
                 }
               ]
             },
@@ -89,7 +115,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Restyle pass on every consumer NUI to use `dirk-cfx-react` for consistency with the rest of the dirk_* lineup."
+                  "v": "**Appearance menu opens reliably on QBX.** New characters go straight into illenium-appearance, with a seamless camera handover."
                 }
               ]
             },
@@ -97,187 +123,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Full locale sweep — every label, tooltip, placeholder, and confirm message reads from `locales/en.json`. `%s` placeholders used for dynamic values instead of hand-rolled `{name}` substitutions."
-                },
-                {
-                  "t": "cont",
-                  "v": "### scriptConfig migration"
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`settings/` folder removed. Every value that was a Lua table — `basic`, `lifestyles`, `spawnLocations`, `vipRoles`, `characterPositions`, `cameraViews`, `defaultItems`, `characterStates` — now lives in `schema.json` and persists through dirk_lib's scriptConfig."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Every Lua consumer reads via `lib.scriptConfig.get('section')` + reacts to admin saves through `lib.scriptConfig.on('section', ...)`. Edits in the configurator apply live, no resource restart required."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`characterMetadata` is the only Lua holdout (its entries carry `get(charId)` callback functions that query the DB — can't be JSON). Moved to `extras/`."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`profanity.json` and `nationalities.json` moved to the resource root (no longer Lua tables)."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Schema `x-arrayKey` used on lifestyles + spawnLocations + characterPositions + characterStates so smartMerge identifies entries cleanly across saves."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`lifestyles/` folder removed — all the per-lifestyle `init.lua` template stubs were entirely commented out and the new scriptConfig flow obsoletes them. Custom Lua-side lifestyles can still be registered from other resources via `exports.dirk_multichar:registerLifestyle(id, data)`."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "React-side `getStateInfo()` now derives from `useScriptConfig.characterStates` instead of a parallel hardcoded Zustand store, so the React copy can no longer drift from the Lua copy."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`web/src/stores/basic.ts` removed too — every consumer now reads from `useScriptConfig` directly so admin saves propagate everywhere live."
-                },
-                {
-                  "t": "cont",
-                  "v": "### Bug fixes"
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed missing `VIPSlot` locale key — locked VIP slots in the character list rendered a blank label instead of \"VIP Slot\"."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed character customisation handoff to `illenium-appearance` (QBX) — appearance UI now opens reliably on character creation by routing through `qb-clothes:client:CreateFirstCharacter` and matching illenium's exact default camera offsets so the cut between our hold-cam and illenium's cam is invisible."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed `NUI_READY` callback collision that left `/dirk_multichar` permanently showing \"Settings UI is still loading\" — now listens for dirk_lib's `nuiReady` event instead of overwriting its handler."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed `basic.totalSlots` (legacy field name) referenced in `server/main.lua` — now correctly reads `basic.maxSlots`."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed lockup where saving the configurator with an empty `vipRoles` default + `x-arrayKey` caused smartMerge to silently drop every entry on load."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed `useFormField` calls that silently degraded to `any` because the generic was given the field value type instead of the parent form shape."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed module-load deadlock where `lib.scriptConfig.get('basic')` at client file top awaited a server callback before the rest of `nui.lua` could execute, leaving `openMultichar` undefined. Client files now use `.on` for module-scope snapshots and only call `.get` inside function bodies."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Walk-and-set position picker now properly hides every body child (including Mantine portal modals) while picking, via a `data-dirk-picking` body attribute + injected CSS rule."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Multichar slot count + admin-editable basics update live in the UI as soon as the admin saves them — no more \"saved 6 slots, still shows 5 until reopen\"."
-                },
-                {
-                  "t": "cont",
-                  "v": "### dirk_lib + dirk-cfx-react improvements"
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`lib.scriptConfig.setBackHandler(fn)` added — one-shot hook for consumers that open the configurator from their own UI and want Back / Esc / close to return to that UI instead of dirk_lib's chooser list. Drained on every exit path so focus stays claimed by the consumer."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Client-side `lib.scriptConfig.get(path)` now supports dot-paths like the server side already did (e.g. `lib.scriptConfig.get('basic.maxSlots')`)."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`<ConfigPanel>` title shrunk to `size=\"md\"` + `flex: 1` + `overflow: hidden` on the title container so longer resource names don't truncate to ellipsis."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "`Vector2/3/4Schema` Zod types added to `dirk-cfx-react` so consumers stop redefining them."
+                  "v": "**/dirk_multichar no longer gets stuck loading.** It could sit on \"Settings UI is still loading\"; it now opens normally."
                 }
               ]
             }
@@ -288,18 +134,31 @@
     {
       "version": "1.1.2",
       "date": "09/09/2025",
-      "headingStyle": "space",
-      "word": "Update",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
       "separatorBefore": false,
       "sections": [
         {
-          "title": null,
+          "title": "New",
           "items": [
             {
               "parts": [
                 {
                   "t": "text",
-                  "v": "Changed some of the buttons/backgrounds to darker theming to match other resources better."
+                  "v": "**vms_housing support.** Player housing from vms_housing is now displayed."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Changes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Darker theme.** Buttons and backgrounds are darker to better match our other scripts."
                 }
               ]
             },
@@ -307,33 +166,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Altered Button.tsx to fit better with theming"
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Completely revampled the lifestyles system"
-                },
-                {
-                  "t": "child",
-                  "v": "Revamped UI with cleaner look.",
-                  "indent": 2
-                },
-                {
-                  "t": "child",
-                  "v": "Added easier ability to create/manage lifestyles from settings/lifestyles.lua",
-                  "indent": 2
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Added support for vms housing to display housing"
+                  "v": "**Lifestyles system revamped.** A cleaner look, and lifestyles are now easier to create and manage from the lifestyles settings file."
                 }
               ]
             }
@@ -344,18 +177,18 @@
     {
       "version": "1.1.1",
       "date": "11/07/2025",
-      "headingStyle": "space",
-      "word": "Update",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
       "separatorBefore": false,
       "sections": [
         {
-          "title": null,
+          "title": "New",
           "items": [
             {
               "parts": [
                 {
                   "t": "text",
-                  "v": "Fixed issue with qbx_core not picking up license2 natively, resulting in no characters being shown."
+                  "v": "**ESX character slots for VIP.** VIP slots can now use the existing character slots table from es_extended."
                 }
               ]
             },
@@ -363,7 +196,20 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Consolidated and reworked all logic for clothing/appearance menus to dirk_lib for simpler adding of more."
+                  "v": "**Option to disable character deletion.**"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Changes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Clothing menus now handled by dirk_lib.** Appearance menu support lives in one place, making it simpler to add more."
                 }
               ]
             },
@@ -371,7 +217,20 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "With illenium and all major clothing including rcore_clothing the characters will now properly display."
+                  "v": "**Better car and house detection.** Players' cars and houses are found more reliably, including qs-housing."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Characters show on QBX.** Fixed qbx_core servers showing no characters because the license2 identifier wasn't picked up."
                 }
               ]
             },
@@ -379,7 +238,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Added ability to use existing character_slots table from es_extended for vipSlots"
+                  "v": "**Characters display with every major clothing script.** This includes illenium-appearance and rcore_clothing."
                 }
               ]
             },
@@ -387,23 +246,7 @@
               "parts": [
                 {
                   "t": "text",
-                  "v": "Added better support for finding player cars/houses including for qs-housing."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Added ability to disable deleting of characters."
-                }
-              ]
-            },
-            {
-              "parts": [
-                {
-                  "t": "text",
-                  "v": "Fixed loadEvent stuff from preventing peoples HUDs showing up."
+                  "v": "**Player HUDs now show after loading in.** Fixed a load event issue that could stop HUDs appearing."
                 }
               ]
             }
