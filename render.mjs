@@ -38,7 +38,8 @@ export function renderEntry(e) {
 }
 
 export function renderDoc(doc) {
-  const chunks = doc.entries.map((e, i) =>
+  // a hidden version stays out of the in-game menu (the site skips it too)
+  const chunks = doc.entries.filter((e) => !e.hidden).map((e, i) =>
     (i === 0 ? '' : e.separatorBefore ? '\n---\n\n' : '\n\n') + renderEntry(e));
   return chunks.join('') + (doc.trailingNewline === false ? '' : '\n');
 }
