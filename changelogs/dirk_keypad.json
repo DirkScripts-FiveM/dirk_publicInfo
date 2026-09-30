@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "resource": "dirk_keypad",
+  "trailingNewline": false,
+  "entries": [
+    {
+      "version": "1.0.0",
+      "date": "30/09/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "separatorBefore": false,
+      "sections": [
+        {
+          "title": "New",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The keypad.** A wall keypad with 12 keys that press in and spring back, a live screen, a key backlight and red and green status LEDs."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Checked on the server.** Keypads are registered on the server with their code, attempt limit and lockout. The client only draws the keypad and sends what was typed."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Attempt limits and lockouts.** A lockout locks the keypad for everyone (or per player, with lockScope), with a countdown on the screen and a red padlock on the wall keypad for everyone nearby."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Light you control:** backlight colour (8 named colours or any RGB) and brightness, LEDs on, off or blinking, and screen brightness, set per keypad when you register it or live from the client."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Native sounds** for key presses, the right code and the wrong one, heard by everyone nearby."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**13 languages**, following dirk_lib's language when it's running, or the dirk_keypad:language convar."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**No dependencies.** dirk_lib is optional."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**A cheap model on the wall** that swaps to the detailed keypad only while someone uses it."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**A models-only version**, dirk_keypadModel, for servers that drive the keypad themselves."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**The /lockpad test command.**"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
