@@ -1,3 +1,15 @@
+# UPDATE 2.1.8 | 21/10/2026
+
+## Fixes
+
+- **No more rod stuck on your character after the rod menu.** Opening the rod menu twice in quick succession could leave a second display rod attached sideways to the player after the menu closed, until they reconnected. The menu now opens once at a time and cleans up after itself.
+- **Fitting or removing a part can no longer get stuck on "Busy".** If something went wrong part-way through fitting or removing a reel, line, hook, bait or weight, every later try answered "Busy" until the player reconnected. That lock is now always released.
+
+## Changes
+
+- **Script Studio is now called Config Studio**, matching dirk_lib.
+---
+
 # UPDATE 2.1.6 | 15/09/2026
 
 ## Fixes

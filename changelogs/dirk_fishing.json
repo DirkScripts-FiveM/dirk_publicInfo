@@ -4,6 +4,49 @@
   "trailingNewline": false,
   "entries": [
     {
+      "version": "2.1.8",
+      "date": "21/10/2026",
+      "headingStyle": "pipe",
+      "word": "UPDATE",
+      "sections": [
+        {
+          "title": "Fixes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**No more rod stuck on your character after the rod menu.** Opening the rod menu twice in quick succession could leave a second display rod attached sideways to the player after the menu closed, until they reconnected. The menu now opens once at a time and cleans up after itself."
+                }
+              ]
+            },
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Fitting or removing a part can no longer get stuck on \"Busy\".** If something went wrong part-way through fitting or removing a reel, line, hook, bait or weight, every later try answered \"Busy\" until the player reconnected. That lock is now always released."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Changes",
+          "items": [
+            {
+              "parts": [
+                {
+                  "t": "text",
+                  "v": "**Script Studio is now called Config Studio**, matching dirk_lib."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "separatorBefore": true
+    },
+    {
       "version": "2.1.6",
       "date": "15/09/2026",
       "headingStyle": "pipe",
