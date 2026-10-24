@@ -64,6 +64,49 @@ being displayed inside somebody else's admin panel, and it is treated that way.
 An announcement that cannot be cleared is a banner, and a panel full of banners
 is a panel people stop reading.
 
+#### `store` — the Overview's shop window (optional)
+
+The Script Studio Overview is a shop window: a rotating hero, four products on
+the shelf, the news above and what is coming. With no `store` block the panel
+uses the catalogue it shipped with, so this is only needed to change what it
+shows — a new release, a sale, a teaser — without a dirk_lib update.
+
+```jsonc
+"store": {
+  "url": "https://dirkscripts.com",           // https only, or it is ignored
+  "discord": "https://discord.gg/dirkscripts",
+
+  // A sale shows only while `ends` is in the future: prices get the cut, the
+  // shelf header gets a countdown, and slides with "clock": true appear.
+  "sale": { "name": "Autumn sale", "pct": 25, "ends": "2026-11-02T00:00:00Z" },
+
+  // Who owns what is worked out on the server: the first of `resources` that
+  // is running means "owned" (a tick instead of a price). `image` is a full
+  // https URL or a Tebex package image hash.
+  "products": [
+    { "id": "multichar", "title": "Multicharacter", "resources": ["dirk_multichar"],
+      "image": "df0f3b0ebe03369f5dcd6829a5fc704fbfec5e47", "price": 23.99, "isNew": true }
+  ],
+  "soon": [ { "id": "traphouses", "title": "Traphouses", "image": "40fd...76c" } ],
+
+  // `product` borrows that product's picture and ownership. `open` is
+  // "script" or "changelog" (hidden when the server does not own it);
+  // otherwise `url`, else the store.
+  "slides": [
+    { "product": "fishing", "kicker": "Out 21 Oct", "solid": "Fishing", "outline": "Sim V2",
+      "body": "Plain text.", "tags": [{ "label": "Update", "tone": "a" }],
+      "go": { "label": "What changed", "open": "changelog" },
+      "alt": { "label": "Open Fishing", "open": "script" } },
+    { "product": "multichar", "kicker": "Autumn sale · ends in", "clock": true,
+      "solid": "25% off", "outline": "everything", "go": { "label": "Shop the sale" } }
+  ]
+}
+```
+
+A list left out (or empty) keeps the built-in one. When the announcements are
+fewer than three, the panel tops the news row up with "a newer version is out"
+cards worked out from `versions` — so keep `versions` current.
+
 ### changelogs/
 
 **This is where a dirk changelog is written.** Not the `CHANGELOG.md` in a
